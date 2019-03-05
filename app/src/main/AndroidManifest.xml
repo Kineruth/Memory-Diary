@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity" />
         <activity android:name=".welcome_screen" />
-        <activity android:name=".Registration"></activity>
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".ResetPasswordActivity"></activity>
     </application>
 
 </manifest>
