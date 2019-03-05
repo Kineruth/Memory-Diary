@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="17dp"
+                android:background="@drawable/inputs"
+                android:drawableLeft="@drawable/email"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:padding="7dp" />
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword"
+                android:background="@drawable/inputs"
+                android:layout_below="@+id/etEmail"
+                android:padding="7dp"
+                android:drawableLeft="@drawable/password"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp" />
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etPassword"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="17dp"
+                android:background="@drawable/button"
+                android:padding="7dp"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvResetPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnLogin"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="17dp"
+                android:text="Forgot Password?"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tvRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvResetPassword"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="17dp"
+                android:text="No Account Yet? Create One Now!"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
