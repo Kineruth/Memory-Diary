@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvLoginAppname"
+                android:id="@+id/tvAppname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -34,14 +34,14 @@
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvLoginAppname"
+                android:layout_below="@+id/tvAppname"
                 android:layout_marginLeft="17dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="17dp"
+                android:padding="10dp"
                 android:background="@drawable/inputs"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:padding="10dp" />
+                android:inputType="textEmailAddress" />
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
@@ -51,10 +51,10 @@
                 android:inputType="textPassword"
                 android:background="@drawable/inputs"
                 android:layout_below="@+id/etEmail"
-                android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="17dp"
-                android:layout_marginRight="17dp" />
+                android:layout_marginRight="17dp"
+                android:padding="10dp" />
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
