@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3996d1</color>
-    <color name="colorPrimaryDark">#114c71</color>
+    <color name="colorPrimary">#c6176393</color>
+    <color name="colorPrimaryDark">#ed176393</color>
     <color name="editTextFloating">#B0BEC5</color>
     <color name="darkBlue">#dc071938</color>
     <color name="white">#ffffff</color>
     <color name="grey">#767676</color>
-    <color name="black">#000000</color>
 </resources>
