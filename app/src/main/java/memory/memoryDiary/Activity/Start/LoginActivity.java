@@ -1,7 +1,10 @@
-package com.example.dvir.memorydiary;
+package memory.memoryDiary.Activity.Start;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.memoryDiary.R;
+
 
 public class LoginActivity extends AppCompatActivity {
 

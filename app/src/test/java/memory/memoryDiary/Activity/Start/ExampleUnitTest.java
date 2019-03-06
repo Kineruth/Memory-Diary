@@ -1,4 +1,4 @@
-package com.example.dvir.memorydiary;
+package memory.memoryDiary.Activity.Start;
 
 import org.junit.Test;
 

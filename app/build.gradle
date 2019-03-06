@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.dvir.memorydiary"
+        applicationId "com.memoryDiary.Activity.Start"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -26,6 +26,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //Design library for Coordinator layout and Toolbars
-    compile 'com.android.support:design:28.0.0'
 }
