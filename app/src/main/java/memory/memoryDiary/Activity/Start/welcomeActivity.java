@@ -1,13 +1,15 @@
-package com.example.dvir.memorydiary;
+package memory.memoryDiary.Activity.Start;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class LoginActivity extends AppCompatActivity {
+import memory.memoryDiary.R;
+
+public class welcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_welcome);
     }
 }
