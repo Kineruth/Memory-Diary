@@ -1,4 +1,4 @@
-package com.example.dvir.memorydiary;
+package memory.memoryDiary.Activity.Start;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.dvir.memorydiary", appContext.getPackageName());
+        assertEquals("com.memoryDiary.Activity.Start", appContext.getPackageName());
     }
 }
