@@ -1,4 +1,4 @@
-package memory.memoryDiary.Activity.Start;
+package com.memoryDiary.Activity.Start;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

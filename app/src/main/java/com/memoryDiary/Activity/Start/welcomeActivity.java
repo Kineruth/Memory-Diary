@@ -1,8 +1,8 @@
-package memory.memoryDiary.Activity.Start;
+package com.memoryDiary.Activity.Start;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import memory.memoryDiary.R;
+import com.memoryDiary.R;
 
 public class welcomeActivity extends AppCompatActivity {
 
