@@ -1,4 +1,4 @@
-package com.memoryDiary.Activity.Start;
+package com.memoryDiary.Fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,12 +13,12 @@ import com.memoryDiary.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link memoryFragment.OnFragmentInteractionListener} interface
+ * {@link MemoryFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link memoryFragment#newInstance} factory method to
+ * Use the {@link MemoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class memoryFragment extends Fragment {
+public class MemoryFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class memoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public memoryFragment() {
+    public MemoryFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class memoryFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment memoryFragment.
+     * @return A new instance of fragment MemoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static memoryFragment newInstance(String param1, String param2) {
-        memoryFragment fragment = new memoryFragment();
+    public static MemoryFragment newInstance(String param1, String param2) {
+        MemoryFragment fragment = new MemoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

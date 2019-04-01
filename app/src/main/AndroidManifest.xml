@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.Start.ShowCaptureActivity"></activity>
-        <activity android:name=".Activity.Start.welcomeActivity">
+        <activity android:name=".Activity.Start.WelcomeActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
