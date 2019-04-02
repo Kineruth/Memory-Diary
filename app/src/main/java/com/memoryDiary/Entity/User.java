@@ -1,4 +1,4 @@
-package com.memoryDiary.Object;
+package com.memoryDiary.Entity;
 
 
 /**
