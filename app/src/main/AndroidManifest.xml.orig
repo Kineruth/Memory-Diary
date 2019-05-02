@@ -14,8 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Memory.MemoryViewActivity"></activity>
-        <activity android:name=".Activity.Start.ShowCaptureActivity" />
+<<<<<<< HEAD
+        <activity android:name=".Activity.Start.CreateMemory"></activity>
+=======
+        <activity android:name=".Activity.Start.ShowCaptureActivity"></activity>
+>>>>>>> 7900d738a5a0823c64043b7c016e12b34fb197da
         <activity android:name=".Activity.Start.WelcomeActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

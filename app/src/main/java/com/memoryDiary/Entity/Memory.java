@@ -1,4 +1,4 @@
-package com.memoryDiary.Entities;
+package com.memoryDiary.Entity;
 
 
 /**
@@ -7,7 +7,7 @@ package com.memoryDiary.Entities;
  */
 public class Memory {
     private String uid;
-    private String memoryName;
+    private String memoryTitle;
     private String description;
     private long creationTime;
     private String image;
@@ -15,9 +15,9 @@ public class Memory {
     public Memory() {
     }
 
-    public Memory(String uid, String memoryName, String description, long creationTime, String image) {
+    public Memory(String uid, String memoryTitle, String description, long creationTime, String image) {
         this.uid = uid;
-        this.memoryName = memoryName;
+        this.memoryTitle = memoryTitle;
         this.description = description;
         this.creationTime = creationTime;
         this.image = image;
@@ -42,16 +42,16 @@ public class Memory {
     /**
      * @return this Memory's name.
      */
-    public String getMemoryName() {
-        return memoryName;
+    public String getMemoryTitle() {
+        return memoryTitle;
     }
 
     /**
      * Sets this Memory's name.
-     * @param memoryName the name to be set from.
+     * @param memoryTitle the name to be set from.
      */
-    public void setMemoryName(String memoryName) {
-        this.memoryName = memoryName;
+    public void setMemoryTitle(String memoryTitle) {
+        this.memoryTitle = memoryTitle;
     }
 
     /**
@@ -94,7 +94,7 @@ public class Memory {
 
     public void setAll(Memory m){
         this.uid = m.uid;
-        this.memoryName = m.memoryName;
+        this.memoryTitle = m.memoryTitle;
         this.description = m.description;
         this.creationTime = m.creationTime;
         this.image = m.image;

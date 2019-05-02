@@ -1,4 +1,4 @@
-package com.memoryDiary.Entities;
+package com.memoryDiary.Entity;
 
 import java.util.ArrayList;
 
