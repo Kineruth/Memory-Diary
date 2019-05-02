@@ -1,4 +1,4 @@
-package com.memoryDiary.Entity;
+package com.memoryDiary.Entities;
 
 
 /**
@@ -21,6 +21,14 @@ public class Memory {
         this.description = description;
         this.creationTime = creationTime;
         this.image = image;
+    }
+
+    public Memory(Memory memory){
+        this.uid = memory.uid;
+        this.memoryName = memory.memoryName;
+        this.description = memory.description;
+        this.creationTime = memory.creationTime;
+        this.image = memory.image;
     }
 
     public String getUid() {

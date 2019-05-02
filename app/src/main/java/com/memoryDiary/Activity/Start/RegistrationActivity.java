@@ -1,5 +1,6 @@
 package com.memoryDiary.Activity.Start;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.memoryDiary.Entities.Diary;
+import com.memoryDiary.Entities.User;
 import com.memoryDiary.R;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -70,26 +75,26 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
     private void clickOnBtnRegister() {
         validator.validate();
         if (valIsDone) {
+            final String name = fullname.getText().toString();
             String mail = email.getText().toString();
             String pass = password.getText().toString();
-            final String name = fullname.getText().toString();
             mAuth.createUserWithEmailAndPassword(mail, pass)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            User user = new User(name, mAuth.getCurrentUser().getUid());
+                            final User user = new User(name, mAuth.getCurrentUser().getUid());
                             mData.child("Users")
                                     .child(mAuth.getCurrentUser().getUid())
                                     .setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    mData.child("Personal Diary")
+                                    mData.child("Diary")
                                             .child(mAuth.getCurrentUser().getUid())
-                                            .setValue(new PersonalDiary("My Diary", "", mData.child("Personal Diary").push().getKey()))
+                                            .setValue(new Diary(user))
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    loginActivity();
+                                                    startLoginActivity();
                                                 }
                                             });
                                 }
@@ -97,6 +102,16 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
                         }
                     });
         }
+    }
+
+    /**
+     * Connects to login activity.
+     * An intent - basically a message to say you did or want something to happen.
+     */
+    private void startLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**

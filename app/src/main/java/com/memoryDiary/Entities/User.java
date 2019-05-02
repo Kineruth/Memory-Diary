@@ -1,4 +1,4 @@
-package com.memoryDiary.Entity;
+package com.memoryDiary.Entities;
 
 
 /**
@@ -24,10 +24,10 @@ public class User {
     }
 
     /**
-     * Sets all this User's parameters by a given other User.
+     * Copy constructor by a given other User.
      * @param user a given User to be set from.
      */
-    public void setAll(User user){
+    public void User(User user){
         this.name = user.name;
         this.uid = user.uid;
     }
