@@ -25,7 +25,7 @@ public class Memory {
 
     public Memory(Memory memory){
         this.uid = memory.uid;
-        this.memoryName = memory.memoryName;
+        this.memoryTitle = memory.memoryTitle;
         this.description = memory.description;
         this.creationTime = memory.creationTime;
         this.image = memory.image;
