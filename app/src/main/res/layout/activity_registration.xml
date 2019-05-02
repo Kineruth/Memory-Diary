@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".RegistrationActivity">
+    tools:context=".Activity.Start.RegistrationActivity">
 
     <TextView
         android:id="@+id/tvAppname"
@@ -20,45 +20,49 @@
         android:textSize="40sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif" />
+
     <EditText
         android:id="@+id/etFullName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvAppname"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="17dp"
         android:background="@drawable/inputs"
         android:hint="Full Name"
         android:inputType="textPersonName"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
         android:padding="10dp" />
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/etFullName"
-        android:hint="@string/hint_email"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/inputs"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="17dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="17dp"
+        android:background="@drawable/inputs"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
         android:padding="10dp" />
+
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/etEmail"
         android:layout_alignParentLeft="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/inputs"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
-        android:background="@drawable/inputs"
-        android:layout_below="@+id/etEmail"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:padding="10dp"/>
+        android:padding="10dp" />
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
