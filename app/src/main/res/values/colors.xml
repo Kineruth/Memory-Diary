@@ -5,6 +5,7 @@
     <color name="editTextFloating">#B0BEC5</color>
     <color name="colorAccent">@android:color/white</color>
     <color name="lightBackgroundOffWhite">#FFEED0</color>
+    <color name="toolbar">#FC015D69</color>
     <color name="lightBlue">#007d8c</color>
     <color name="babyBlue">#25add3</color>
     <color name="darkBlue">#dc071938</color>
