@@ -6,6 +6,8 @@ public class Diary {
     private User owner;
     private ArrayList<Memory> memories;
 
+    public Diary(){}
+
     /**
      * Parameterized Constructor
      * @param owner the owner on the diary
@@ -40,5 +42,11 @@ public class Diary {
      */
     public ArrayList<Memory> getAllMemories(){
         return this.memories;
+    }
+
+    public void setAll(Diary d){
+        this.owner = d.owner;
+        this.memories.clear();
+        this.memories.addAll(d.memories);
     }
 }

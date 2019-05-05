@@ -49,7 +49,14 @@ public class User {
         this.uid = uid;
     }
 
-
+    /**
+     * Sets all this User's parameters by a given other User.
+     * @param user a given User to be set from.
+     */
+    public void setAll(User user){
+        this.name = user.name;
+        this.uid = user.uid;
+    }
     @Override
     public String toString() {
         return "User{" +
