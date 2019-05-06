@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.memoryDiary.Activity.Memory.MemoryViewActivity"
+    tools:context="com.memoryDiary.Fragment.MemoryFragment"
     android:padding="8dp">
 
     <android.support.design.widget.AppBarLayout
@@ -28,8 +28,7 @@
         android:src="@drawable/ic_add_black_24dp"
         app:fabSize="normal"
         app:backgroundTint="@color/babyBlue"
-        app:elevation="6dp"
-    ></android.support.design.widget.FloatingActionButton>
+        app:elevation="6dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memory_recyclerview"
@@ -39,4 +38,4 @@
     </android.support.v7.widget.RecyclerView>
 
 
-</RelativeLayout>
+</FrameLayout>
