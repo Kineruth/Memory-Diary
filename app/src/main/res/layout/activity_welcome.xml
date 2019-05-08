@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Activity.Start.WelcomeActivity">
 
     <TextView
         android:id="@+id/welcomeTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
+        android:layout_alignTop="@+id/tapAnywhereToConBTN"
+        android:layout_marginTop="44dp"
         android:fontFamily="@font/maitree"
         android:gravity="center_horizontal"
         android:text="There are moments\nthat must be cherished\nand not forgotten.."
@@ -22,8 +23,8 @@
 
     <ImageView
         android:id="@+id/welcomeIV"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="353dp"
+        android:layout_height="378dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:src="@drawable/welcome_image" />
@@ -37,14 +38,16 @@
         android:id="@+id/tapAnywhereToConTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/welcomeIV"
+        android:layout_alignBottom="@+id/tapAnywhereToConBTN"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
         android:layout_marginBottom="70dp"
         android:fontFamily="@font/maitree"
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="tap anywhere to continue"
+        android:text="Tap anywhere to continue"
         android:textAlignment="center"
         android:textColor="#007d8c"
         android:textSize="18sp"

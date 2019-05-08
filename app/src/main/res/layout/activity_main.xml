@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/app_root"
+    android:id="@+id/app_view_pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context="com.memoryDiary.Activity.Main.MainActivity">
 
-    <View
-        android:id="@+id/app_main_view_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/darkBlue"
-        android:alpha=".5"/>
-
-    <ViewPager
-        android:id="@+id/app_main_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</RelativeLayout>
+</ViewPager>

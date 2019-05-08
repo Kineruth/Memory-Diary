@@ -43,10 +43,10 @@ public class MemoryFragment extends Fragment {
     private List<Memory> memories;
     private DatabaseReference mData;
 
-//    public static MemoryFragment newInstance() {
-//        MemoryFragment mFragment = new MemoryFragment();
-//        return mFragment;
-//    }
+    public static MemoryFragment newInstance() {
+        MemoryFragment mFragment = new MemoryFragment();
+        return mFragment;
+    }
 
     @Nullable
     @Override
@@ -66,10 +66,10 @@ public class MemoryFragment extends Fragment {
         setHasOptionsMenu(true);
 //        setTitle(R.id.memory_toolbar);
         mFabAdd = mView.findViewById(R.id.memory_add_floating_button);
-        memories = new ArrayList<>();
         memoryRecyclerView = mView.findViewById(R.id.memory_recyclerview);
         memoryRecyclerView.setHasFixedSize(true);
         memoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        memories = new ArrayList<>();
         adapter = new MemoryAdapter(getActivity(), memories);
         memoryRecyclerView.setAdapter(adapter);
 
@@ -131,6 +131,9 @@ public class MemoryFragment extends Fragment {
         return true;
     }
 
+    /**
+     * When clicked on the add FAB will open the add new memory activity.
+     */
     private void addMemoryActivity() {
         Intent intent = new Intent(getActivity(), AddMemoryActivity.class);
         startActivity(intent);

@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etFullName"
+        android:src="@drawable/email"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="17dp"
         android:layout_marginTop="10dp"
@@ -71,10 +72,12 @@
         android:layout_marginLeft="17dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="17dp"
-        android:background="@drawable/button"
+        android:background="@drawable/my_button"
+        android:fontFamily="serif"
         android:padding="4dp"
         android:text="Register"
         android:textAllCaps="false"
         android:textColor="@android:color/background_light"
-        android:textSize="20sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 </RelativeLayout>
