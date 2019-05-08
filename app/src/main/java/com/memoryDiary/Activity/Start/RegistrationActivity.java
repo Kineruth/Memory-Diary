@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,7 +34,8 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
     private EditText password;
     @NotEmpty
     @Pattern(message = "Input Must Contain Only Letters", regex = "[a-zA-Z][a-zA-Z ]+")
-    private EditText fullname;
+    private EditText fullName;
+    private Button bRegister;
     private Validator validator;
     private static boolean valIsDone;
     private FirebaseAuth mAuth;
@@ -43,10 +45,9 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        mAuth = FirebaseAuth.getInstance();
-        mData = FirebaseDatabase.getInstance().getReference();
         initFields();
         initValidator();
+        initFireBase();
     }
 
     /**
@@ -55,8 +56,9 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
     private void initFields(){
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
-        fullname = findViewById(R.id.etFullName);
-        findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
+        fullName = findViewById(R.id.etFullName);
+        bRegister= findViewById(R.id.btnRegister);
+        bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickOnBtnRegister();
@@ -68,14 +70,20 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
-
+    /**
+     * Gets the firebase instances & references.
+     */
+    private void initFireBase(){
+        mAuth = FirebaseAuth.getInstance();
+        mData = FirebaseDatabase.getInstance().getReference();
+    }
     /**
      * When the button 'Register' was clicked.
      */
     private void clickOnBtnRegister() {
         validator.validate();
         if (valIsDone) {
-            final String name = fullname.getText().toString();
+            final String name = fullName.getText().toString();
             String mail = email.getText().toString();
             String pass = password.getText().toString();
             mAuth.createUserWithEmailAndPassword(mail, pass)
@@ -104,15 +112,7 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
         }
     }
 
-    /**
-     * Connects to login activity.
-     * An intent - basically a message to say you did or want something to happen.
-     */
-    private void startLoginActivity(){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
+
 
     /**
      * Called when all the 'Rules' added to this Validator are valid.
@@ -139,5 +139,15 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    /**
+     * Connects to login activity.
+     * An intent - basically a message to say you did or want something to happen.
+     */
+    private void startLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

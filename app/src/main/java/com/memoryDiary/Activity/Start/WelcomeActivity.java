@@ -1,14 +1,14 @@
 package com.memoryDiary.Activity.Start;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.memoryDiary.Fragment.CameraFragment;
+import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.R;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -67,7 +67,8 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (currentUser != null) {
-            startActivity(new Intent(WelcomeActivity.this, CameraFragment.class));
+            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+//            startActivity(new Intent(WelcomeActivity.this, CameraFragment.class));
             finish();
         }
     }

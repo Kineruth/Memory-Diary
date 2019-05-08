@@ -15,8 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Start.WelcomeActivity"
-            android:theme="@style/FullScreenTheme">
+        <activity android:name=".Activity.Start.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +26,6 @@
         <activity android:name=".Activity.Start.RegistrationActivity" />
         <activity android:name=".Activity.Start.ResetPasswordActivity" />
         <activity android:name=".Activity.Start.ShowCaptureActivity" />
-        <activity android:name=".Activity.Memory.MemoryViewActivity"/>
         <activity android:name=".Activity.Memory.AddMemoryActivity"/>
         <activity android:name=".Activity.Memory.ShowMemoryActivity" />
         <activity android:name=".Activity.Main.MainActivity" />
