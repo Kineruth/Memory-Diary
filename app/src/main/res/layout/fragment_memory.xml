@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".memory">
+    tools:context="com.memoryDiary.Fragment.MemoryFragment"
+    android:padding="8dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/memory_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/memory_toolbar"
+            layout="@layout/activity_memory_toolbar_layout">
+        </include>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/memory_add_floating_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_add_black_24dp"
+        app:fabSize="normal"
+        app:backgroundTint="@color/babyBlue"
+        app:elevation="6dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/memory_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
 
 </FrameLayout>

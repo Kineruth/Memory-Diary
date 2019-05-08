@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
-        android:color="@color/editTextFloating"
-        android:width="1dp"
+        android:color="@color/babyBlue"
+        android:width="3dp"
         android:paddingLeft="200dp">
     </stroke>
-    <corners android:radius="5dip" />
+
+    <corners
+        android:radius="5dip"
+        android:color="@color/babyBlue">
+    </corners>
 
 </shape>

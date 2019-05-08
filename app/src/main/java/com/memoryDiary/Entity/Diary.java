@@ -1,10 +1,12 @@
-package com.memoryDiary.Entities;
+package com.memoryDiary.Entity;
 
 import java.util.ArrayList;
 
 public class Diary {
     private User owner;
     private ArrayList<Memory> memories;
+
+    public Diary(){}
 
     /**
      * Parameterized Constructor
@@ -40,5 +42,11 @@ public class Diary {
      */
     public ArrayList<Memory> getAllMemories(){
         return this.memories;
+    }
+
+    public void setAll(Diary d){
+        this.owner = d.owner;
+        this.memories.clear();
+        this.memories.addAll(d.memories);
     }
 }

@@ -1,109 +1,139 @@
 package com.memoryDiary.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.memoryDiary.Activity.Memory.AddMemoryActivity;
+import com.memoryDiary.Adapter.MemoryAdapter;
+import com.memoryDiary.Entity.Memory;
+import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MemoryFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MemoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MemoryFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View mView;
+    private Toolbar mToolbar;
+    private FloatingActionButton mFabAdd;
+    private RecyclerView memoryRecyclerView;
+    private MemoryAdapter adapter;
+    private List<Memory> memories;
+    private DatabaseReference mData;
 
-    private OnFragmentInteractionListener mListener;
+//    public static MemoryFragment newInstance() {
+//        MemoryFragment mFragment = new MemoryFragment();
+//        return mFragment;
+//    }
 
-    public MemoryFragment() {
-        // Required empty public constructor
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_memory, container, false);
+        initFields();
+        initFireBase();
+        return mView;
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MemoryFragment.
+     * Initialization the connection of the fields in xml file to their activities.
      */
-    // TODO: Rename and change types and number of parameters
-    public static MemoryFragment newInstance(String param1, String param2) {
-        MemoryFragment fragment = new MemoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private void initFields() {
+        mToolbar = mView.findViewById(R.id.memory_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        setHasOptionsMenu(true);
+//        setTitle(R.id.memory_toolbar);
+        mFabAdd = mView.findViewById(R.id.memory_add_floating_button);
+        memories = new ArrayList<>();
+        memoryRecyclerView = mView.findViewById(R.id.memory_recyclerview);
+        memoryRecyclerView.setHasFixedSize(true);
+        memoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        adapter = new MemoryAdapter(getActivity(), memories);
+        memoryRecyclerView.setAdapter(adapter);
+
+        mFabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addMemoryActivity();
+            }
+        });
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    private void initFireBase(){
+        mData = FirebaseDatabase.getInstance().getReference();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_memory, container, false);
-    }
+    private void initRecyclerView() {
+        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child("Memories").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                memories.clear();
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    Memory memory = data.getValue(Memory.class);
+                    Log.d("test", memory.toString());
+                    memories.add(memory);
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Used to specify the options menu for an activity
+     * @param menu a given menu to be displayed.
+     * @return true to be displayed.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.activity_memory_toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
+
+    /**
+     * Checked what was chosen - adding or searching in the personal diary.
+     * @param item an item that has been selected.
+     * @return false to allow normal menu processing to proceed, true to consume it here.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.memory_toolbar_search){
+            Toast.makeText(getActivity(), "Search", Toast.LENGTH_SHORT).show();
+        }
+        if(item.getItemId() == R.id.memory_toolbar_settings){
+            Toast.makeText(getActivity(), "Settings", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
+    private void addMemoryActivity() {
+        Intent intent = new Intent(getActivity(), AddMemoryActivity.class);
+        startActivity(intent);
+    }
+
 }

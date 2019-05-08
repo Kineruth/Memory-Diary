@@ -3,10 +3,9 @@
     package="com.memoryDiary">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,23 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Start.WelcomeActivity"
-            android:theme="@style/FullScreenTheme">
+<<<<<<< HEAD
+        <activity android:name=".Activity.Start.CreateMemory"></activity>
+=======
+        <activity android:name=".Activity.Start.ShowCaptureActivity"></activity>
+>>>>>>> 7900d738a5a0823c64043b7c016e12b34fb197da
+        <activity android:name=".Activity.Start.WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity android:name=".Activity.Start.LoginActivity" />
         <activity android:name=".Activity.Start.RegistrationActivity" />
         <activity android:name=".Activity.Start.ResetPasswordActivity" />
-        <activity android:name=".Activity.Start.ShowCaptureActivity" />
-        <activity android:name=".Activity.Memory.MemoryViewActivity"/>
-        <activity android:name=".Activity.Memory.AddMemoryActivity"/>
-        <activity android:name=".Activity.Memory.ShowMemoryActivity" />
-        <activity android:name=".Activity.Main.MainActivity" />
-
     </application>
 
 </manifest>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.memoryDiary.Activity.Memory.ShowMemoryActivity">
+
+
+    <TextView
+        android:id="@+id/show_memory_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/inputs"
+        android:fontFamily="@font/maitree"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/show_memory_image"
+        android:layout_width="match_parent"
+        android:layout_height="215dp"
+        android:layout_below="@+id/show_memory_title"
+        android:layout_marginTop="18dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/add_memory_image" />
+
+    <TextView
+        android:id="@+id/show_memory_description"
+        android:layout_width="404dp"
+        android:layout_height="331dp"
+        android:layout_below="@+id/show_memory_image"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/inputs"
+        android:fontFamily="serif"
+        android:gravity="start"
+        android:inputType="textCapSentences|textMultiLine"
+        android:scrollbars="vertical"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>
