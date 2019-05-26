@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.memoryDiary.Activity.Main.MainActivity;
+import com.memoryDiary.Fragment.CameraFragment;
 import com.memoryDiary.R;
 
 public class WelcomeActivity extends AppCompatActivity {

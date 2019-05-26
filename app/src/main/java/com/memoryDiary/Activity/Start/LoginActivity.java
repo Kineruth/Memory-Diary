@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.Fragment.CameraFragment;
 import com.memoryDiary.R;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -103,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     }
 
     private void cameraFragment() {
-        Intent intent = new Intent(this, CameraFragment.class);
+        Intent intent = new Intent(this, MainActivity.class);
         finish();
         startActivity(intent);
     }

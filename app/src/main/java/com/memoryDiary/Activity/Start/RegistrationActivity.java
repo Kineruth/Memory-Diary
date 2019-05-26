@@ -24,6 +24,7 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Pattern;
 
 import java.util.List;
+import android.widget.Toast;
 
 public class RegistrationActivity extends AppCompatActivity implements Validator.ValidationListener{
     @NotEmpty()
@@ -102,6 +103,7 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getApplicationContext(),"Succeeded register",Toast.LENGTH_SHORT).show();
                                                     startLoginActivity();
                                                 }
                                             });

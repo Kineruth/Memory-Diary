@@ -1,9 +1,11 @@
 package com.memoryDiary.Activity.Memory;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -35,13 +37,13 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     @NotEmpty()
     private EditText descriptionAddText;
     @NotEmpty()
-    private EditText titleAddText;
+    private EditText memoTitleAddText;
     private ImageView memoryImageView;
     private DatabaseReference mData;
     private StorageReference memoryImageRef;
     private String key;
     private Uri imageUri = null;
-    private Validator validator;
+//    private Validator validator;
     private static boolean valIsDone;
 
     @Override
@@ -49,12 +51,12 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_memory);
         initFields();
-        initFireBase();
-        initValidator();
+        initFireBase(); //failed to init firebase
+//        initValidator();
     }
 
     private void initFields(){
-        titleAddText = findViewById(R.id.add_memory_title);
+        memoTitleAddText = findViewById(R.id.add_memory_title);
         memoryImageView = findViewById(R.id.add_memory_image);
         descriptionAddText = findViewById(R.id.add_memory_description);
         descriptionAddText.setMovementMethod(new ScrollingMovementMethod());
@@ -75,20 +77,32 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
 
     private void initFireBase(){
         mData = FirebaseDatabase.getInstance().getReference();
-        key = mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child("Memories").push().getKey();
+        key = mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).push().getKey();
         memoryImageRef = FirebaseStorage.getInstance().getReference().child("Memory").child(UserDataHolder.getUserDataHolder().getUser().getUid());
 
     }
 
-    private void initValidator(){
-        validator = new Validator(this);
-        validator.setValidationListener(this);
-    }
+//    private void initValidator(){
+//        validator = new Validator(this);
+//        validator.setValidationListener(this);
+//    }
 
     private void clickOnMemoryImage() {
         FishBun.with(this).setImageAdapter(new GlideAdapter())
                 .setMinCount(1)
                 .setMaxCount(1)
+                .setActionBarColor(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"), true)
+                .setActionBarTitleColor(Color.parseColor("#000000"))
+                .setAlbumSpanCount(1, 2)
+                .setButtonInAlbumActivity(true)
+                .setCamera(false)
+                .exceptGif(true)
+                .setReachLimitAutomaticClose(false)
+                .setHomeAsUpIndicatorDrawable(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_black_24dp))
+                .setOkButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_check_black_24dp))
+                .setActionBarTitle("Albums")
+                .setAllViewTitle("All photos")
+                .textOnNothingSelected("No photo was selected")
                 .startAlbum();
     }
 
@@ -102,10 +116,10 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     }
 
     private void clickOnAddMemory() {
-        validator.validate();
+//        validator.validate();
         if(valIsDone && imageUri != null){
             final Memory memory = new Memory(key,
-                    titleAddText.getText().toString(),
+                    memoTitleAddText.getText().toString(),
                     descriptionAddText.getText().toString(),
                     Calendar.getInstance().getTimeInMillis(),
                     "");
@@ -117,7 +131,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                         @Override
                         public void onSuccess(Uri uri) {
                             memory.setImage(uri.toString());
-                            mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child("Memories")
+                            mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid())
                                     .child(key).setValue(memory).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

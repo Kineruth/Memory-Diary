@@ -76,6 +76,7 @@ public class MemoryFragment extends Fragment {
         mFabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "Add Memo", Toast.LENGTH_SHORT).show();
                 addMemoryActivity();
             }
         });
@@ -86,13 +87,14 @@ public class MemoryFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child("Memories").addValueEventListener(new ValueEventListener() {
+        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).addValueEventListener(new ValueEventListener() {
+//        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child("Memories").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 memories.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     Memory memory = data.getValue(Memory.class);
-                    Log.d("test", memory.toString());
+                    Log.d("changed fireB data", memory.toString());
                     memories.add(memory);
                 }
                 adapter.notifyDataSetChanged();
@@ -135,7 +137,7 @@ public class MemoryFragment extends Fragment {
      * When clicked on the add FAB will open the add new memory activity.
      */
     private void addMemoryActivity() {
-        Intent intent = new Intent(getActivity(), AddMemoryActivity.class);
+        Intent intent = new Intent(this.getActivity(), AddMemoryActivity.class);
         startActivity(intent);
     }
 
