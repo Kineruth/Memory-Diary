@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
      * Initialization the connection of the fields in xml file to their activities.
      */
     private void initFields(){
-        mToolbar = this.findViewById(R.id.app_memory_toolbar);
+        mToolbar = this.findViewById(R.id.fragment_memory_toolbar);
         setActionBar(mToolbar);
     }
 

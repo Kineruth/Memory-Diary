@@ -19,14 +19,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.memoryDiary.Activity.Memory.AddMemoryActivity;
+import com.memoryDiary.Activity.Start.LoginActivity;
 import com.memoryDiary.Adapter.MemoryAdapter;
 import com.memoryDiary.Entity.Memory;
+import com.memoryDiary.Holder.DiaryDataHolder;
+import com.memoryDiary.Holder.MemoryDataHolder;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 
@@ -41,6 +45,7 @@ public class MemoryFragment extends Fragment {
     private RecyclerView memoryRecyclerView;
     private MemoryAdapter adapter;
     private List<Memory> memories;
+    private FirebaseAuth mAuth;
     private DatabaseReference mData;
 
     public static MemoryFragment newInstance() {
@@ -61,7 +66,7 @@ public class MemoryFragment extends Fragment {
      * Initialization the connection of the fields in xml file to their activities.
      */
     private void initFields() {
-        mToolbar = mView.findViewById(R.id.memory_toolbar);
+        mToolbar = mView.findViewById(R.id.fragment_memory_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
 //        setTitle(R.id.memory_toolbar);
@@ -83,12 +88,12 @@ public class MemoryFragment extends Fragment {
     }
 
     private void initFireBase(){
+        mAuth = FirebaseAuth.getInstance();
         mData = FirebaseDatabase.getInstance().getReference();
     }
 
     private void initRecyclerView() {
         mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).addValueEventListener(new ValueEventListener() {
-//        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child("Memories").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 memories.clear();
@@ -112,7 +117,7 @@ public class MemoryFragment extends Fragment {
      */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.activity_memory_toolbar_menu, menu);
+        inflater.inflate(R.menu.activity_memory_menu, menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -124,11 +129,17 @@ public class MemoryFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.memory_toolbar_search){
+        if(item.getItemId() == R.id.search_option) {
             Toast.makeText(getActivity(), "Search", Toast.LENGTH_SHORT).show();
+//            SearchActivity();
         }
-        if(item.getItemId() == R.id.memory_toolbar_settings){
+        if(item.getItemId() == R.id.settings_option) {
             Toast.makeText(getActivity(), "Settings", Toast.LENGTH_SHORT).show();
+//            SettingsActivity();
+        }
+        if(item.getItemId() == R.id.logout_option){
+            Toast.makeText(getActivity(), "Login", Toast.LENGTH_SHORT).show();
+            loginActivity();
         }
         return true;
     }
@@ -139,6 +150,36 @@ public class MemoryFragment extends Fragment {
     private void addMemoryActivity() {
         Intent intent = new Intent(this.getActivity(), AddMemoryActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Connects to the settings activity and starts it.
+     */
+//    private void SettingsActivity() {
+//        Intent intent = new Intent(this.getActivity(), SettingsActivity.class);
+//        startActivity(intent);
+//    }
+
+    /**
+     * Connects to login activity and starts it.
+     * An intent - basically a message to say you did or want something to happen.
+     */
+    private void loginActivity() {
+        clearDataHolderes();
+        mAuth.signOut();
+        Intent intent = new Intent(this.getActivity(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    private void SearchActivity(){
+
+    }
+
+    private void clearDataHolderes() {
+        UserDataHolder.getUserDataHolder().clearUser();
+        DiaryDataHolder.getDiaryDataHolder().clearDiary();
+        MemoryDataHolder.getMemoryDataHolder().clearMemory();
     }
 
 

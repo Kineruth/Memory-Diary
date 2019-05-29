@@ -10,15 +10,15 @@ public class DiaryDataHolder {
         diary = new Diary();
     }
 
-    public static DiaryDataHolder getPersonalDiaryDataHolder(){
+    public static DiaryDataHolder getDiaryDataHolder(){
         return data;
     }
 
-    public Diary getPersonalDiary(){
+    public Diary getDiary(){
         return diary;
     }
 
-    public void clearPersonalDiary(){
+    public void clearDiary(){
         diary.setAll(new Diary());
     }
 }

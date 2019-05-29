@@ -14,7 +14,7 @@ public class Diary {
      */
     public Diary(User owner){
         this.owner = owner;
-        this.memories = new ArrayList<>();
+        this.memories = new ArrayList<Memory>();
     }
 
     /**
@@ -46,7 +46,10 @@ public class Diary {
 
     public void setAll(Diary d){
         this.owner = d.owner;
-        this.memories.clear();
-        this.memories.addAll(d.memories);
+        if(this.memories != null){
+            this.memories.clear();
+            this.memories.addAll(d.memories);
+        }
+
     }
 }

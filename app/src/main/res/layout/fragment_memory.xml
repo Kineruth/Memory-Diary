@@ -8,14 +8,14 @@
     android:padding="8dp">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/activityMemoryToolbar"
+        android:id="@+id/MemoryBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <include
-            android:id="@+id/memory_toolbar"
-            layout="@layout/activity_memory_toolbar_layout">
+            android:id="@+id/fragment_memory_toolbar"
+            layout="@layout/app_bar_layout">
         </include>
     </android.support.design.widget.AppBarLayout>
 
@@ -34,7 +34,7 @@
         android:id="@+id/memory_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/activityMemoryToolbar">
+        android:layout_below="@+id/MemoryBarLayout">
 
     </android.support.v7.widget.RecyclerView>
 
