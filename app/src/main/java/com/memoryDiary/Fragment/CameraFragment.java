@@ -1,11 +1,9 @@
 package com.memoryDiary.Fragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -52,7 +50,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
             cameraSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
 
-        Button captureButton = view.findViewById(R.id.captureButton);
+        Button captureButton = view.findViewById(R.id.capture_button);
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +119,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
                     cameraSurfaceHolder.addCallback(this);
                     cameraSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
                 }else{
-                    Toast.makeText(getContext(), "No permission.\nPlease provide permission to the camera.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Please provide permission to camera.", Toast.LENGTH_LONG).show();
                 }
                 break;
             }

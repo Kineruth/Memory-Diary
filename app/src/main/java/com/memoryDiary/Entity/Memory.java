@@ -3,14 +3,14 @@ package com.memoryDiary.Entity;
 
 /**
  * This class represents a single Memory in a Diary.
- * A Memory is an image and its description. It has other parameters.
+ * A Memory is an imagePath and its description. It has other parameters.
  */
 public class Memory {
     private String uid;
     private String memoryTitle;
     private String description;
     private long creationTime;
-    private String image;
+    private String imagePath;
 
     public Memory() {
     }
@@ -20,7 +20,7 @@ public class Memory {
         this.memoryTitle = memoryTitle;
         this.description = description;
         this.creationTime = creationTime;
-        this.image = image;
+        this.imagePath = image;
     }
 
     public Memory(Memory memory){
@@ -28,7 +28,7 @@ public class Memory {
         this.memoryTitle = memory.memoryTitle;
         this.description = memory.description;
         this.creationTime = memory.creationTime;
-        this.image = memory.image;
+        this.imagePath = memory.imagePath;
     }
 
     public String getUid() {
@@ -84,12 +84,12 @@ public class Memory {
         this.creationTime = creationTime;
     }
 
-    public String getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public void setAll(Memory m){
@@ -97,6 +97,6 @@ public class Memory {
         this.memoryTitle = m.memoryTitle;
         this.description = m.description;
         this.creationTime = m.creationTime;
-        this.image = m.image;
+        this.imagePath = m.imagePath;
     }
 }

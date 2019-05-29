@@ -28,7 +28,7 @@
         android:src="@drawable/ic_add_black_24dp"
         app:fabSize="normal"
         app:backgroundTint="@color/babyBlue"
-        app:elevation="6dp" />
+        app:elevation="50dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memory_recyclerview"

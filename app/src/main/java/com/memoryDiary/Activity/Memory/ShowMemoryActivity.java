@@ -36,7 +36,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
         Memory memory = MemoryDataHolder.getMemoryDataHolder().getMemory();
         titleText.setText(memory.getMemoryTitle());
         descriptionText.setText(memory.getDescription());
-        Picasso.get().load(memory.getImage()).into(memoryImageView);
+        Picasso.get().load(memory.getImagePath()).into(memoryImageView);
     }
 }
 

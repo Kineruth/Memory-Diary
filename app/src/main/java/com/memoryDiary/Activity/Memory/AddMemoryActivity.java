@@ -43,16 +43,18 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     private StorageReference memoryImageRef;
     private String key;
     private Uri imageUri = null;
-//    private Validator validator;
+    private Validator validator;
     private static boolean valIsDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_memory);
+
+//        Bundle extras = savedInstanceState.
         initFields();
         initFireBase(); //failed to init firebase
-//        initValidator();
+        initValidator();
     }
 
     private void initFields(){
@@ -79,15 +81,15 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
         mData = FirebaseDatabase.getInstance().getReference();
         key = mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).push().getKey();
         memoryImageRef = FirebaseStorage.getInstance().getReference().child("Memory").child(UserDataHolder.getUserDataHolder().getUser().getUid());
-
     }
 
-//    private void initValidator(){
-//        validator = new Validator(this);
-//        validator.setValidationListener(this);
-//    }
+    private void initValidator(){
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+    }
 
     private void clickOnMemoryImage() {
+        Toast.makeText(this, "choose1", Toast.LENGTH_LONG).show();
         FishBun.with(this).setImageAdapter(new GlideAdapter())
                 .setMinCount(1)
                 .setMaxCount(1)
@@ -102,7 +104,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                 .setOkButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_check_black_24dp))
                 .setActionBarTitle("Albums")
                 .setAllViewTitle("All photos")
-                .textOnNothingSelected("No photo was selected")
+                .textOnNothingSelected("No picture selected")
                 .startAlbum();
     }
 
@@ -116,7 +118,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     }
 
     private void clickOnAddMemory() {
-//        validator.validate();
+        validator.validate();
         if(valIsDone && imageUri != null){
             final Memory memory = new Memory(key,
                     memoTitleAddText.getText().toString(),
@@ -130,7 +132,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                     filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            memory.setImage(uri.toString());
+                            memory.setImagePath(uri.toString());
                             mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid())
                                     .child(key).setValue(memory).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -142,6 +144,9 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                     });
                 }
             });
+        }
+        else if (!valIsDone){
+            Toast.makeText(this, "No picture selected", Toast.LENGTH_LONG).show();
         }
     }
 

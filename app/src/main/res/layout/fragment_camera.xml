@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gold"
+    android:background="@color/black"
     tools:context="com.memoryDiary.Fragment.CameraFragment">
 
     <SurfaceView
@@ -11,9 +11,14 @@
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/captureButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="capture"/>
+        android:id="@+id/capture_button"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/round_button"
+        android:text="capture"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold" />
 </FrameLayout>
