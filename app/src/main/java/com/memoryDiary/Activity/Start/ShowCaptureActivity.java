@@ -16,6 +16,7 @@ import com.memoryDiary.R;
 public class ShowCaptureActivity extends AppCompatActivity {
 
     FloatingActionButton mFab ;
+    byte[] picture;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,12 +25,12 @@ public class ShowCaptureActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         assert extras != null;
-        byte[] b = extras.getByteArray("capture");
+        picture = extras.getByteArray("capture");
 
-        if(b != null){
+        if(picture != null){
             ImageView image = findViewById(R.id.imageViewCaptured);
 
-            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(picture, 0, picture.length);
             Bitmap rotatedBitmap = rotate(decodedBitmap);
             image.setImageBitmap(rotatedBitmap);
 
@@ -57,6 +58,7 @@ public class ShowCaptureActivity extends AppCompatActivity {
      */
     private void addMemoryActivity() {
         Intent intent = new Intent(this, AddMemoryActivity.class);
+        intent.putExtra("capture", picture);
         startActivity(intent);
     }
 }

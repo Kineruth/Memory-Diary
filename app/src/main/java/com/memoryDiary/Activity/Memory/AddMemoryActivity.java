@@ -1,7 +1,10 @@
 package com.memoryDiary.Activity.Memory;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.memoryDiary.Activity.Start.ShowCaptureActivity;
 import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
@@ -68,7 +72,15 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                 clickOnAddMemory();
             }
         });
-        memoryImageView = findViewById(R.id.add_memory_image);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            byte[] picture = extras.getByteArray("capture");
+            if(picture != null){
+                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+                Bitmap rotatedBitmap = rotate(decodedBitmap);
+                memoryImageView.setImageBitmap(rotatedBitmap);
+            }
+        }
         memoryImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +98,17 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     private void initValidator(){
         validator = new Validator(this);
         validator.setValidationListener(this);
+    }
+
+
+    private Bitmap rotate(Bitmap decodedBitmap) {
+        int w = decodedBitmap.getWidth();
+        int h = decodedBitmap.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.setRotate(90);
+
+        return Bitmap.createBitmap(decodedBitmap, 0, 0, w, h, matrix, true);
     }
 
     private void clickOnMemoryImage() {
