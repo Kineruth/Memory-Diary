@@ -1,18 +1,15 @@
 package com.memoryDiary.Activity.Main;
 
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-//import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.SurfaceHolder;
 import android.widget.Toolbar;
-import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,11 +23,13 @@ import com.memoryDiary.Fragment.MemoryFragment;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
     private Toolbar mToolbar;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
+//    private final int CAMERA_REQUEST_CODE = 1;
+//    public SurfaceHolder cameraSurfaceHolder;
 
     public MainActivity() {}
 
@@ -83,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
+    }
+
     private static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 2;
         public MyPagerAdapter(FragmentManager fm) {
@@ -125,5 +139,22 @@ public class MainActivity extends AppCompatActivity {
                 default: return null;
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode){
+//            case CAMERA_REQUEST_CODE:{
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                    cameraSurfaceHolder.addCallback(this);
+//                    cameraSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+//                }else{
+//                    Toast.makeText(this, "Please provide permission to camera.", Toast.LENGTH_LONG).show();
+//                }
+//                break;
+//            }
+//
+//        }
     }
 }

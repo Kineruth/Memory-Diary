@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.memoryDiary.Activity.Memory.ShowMemoryActivity;
 import com.memoryDiary.Entity.Memory;
@@ -18,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder> {
+public class MemoryAdapter extends RecyclerView.Adapter <MemoryAdapter.MemoryViewHolder> {
 
 private Context mContext;
 private List<Memory> mData;
@@ -50,7 +51,7 @@ private List<Memory> mData;
         if(!memory.getImagePath().isEmpty())
             Picasso.get().load(memory.getImagePath()).into(memoryViewHolder.img_memory_thumbnail);
         else
-            //???
+            Picasso.get().load(R.drawable.forgot_photo).into(memoryViewHolder.img_memory_thumbnail);
         memoryViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

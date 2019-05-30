@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,22 +17,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.Activity.Start.ShowCaptureActivity;
 import com.memoryDiary.R;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 
 public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
     Camera camera;
-
     Camera.PictureCallback jpegCallback;
+    public SurfaceView cameraSurfaceView;
+    public SurfaceHolder cameraSurfaceHolder;
+    private final int CAMERA_REQUEST_CODE = 1;
+    public MainActivity mainActivity = (MainActivity) getActivity();
 
-    SurfaceView cameraSurfaceView;
-    SurfaceHolder cameraSurfaceHolder;
 
-    final int CAMERA_REQUEST_CODE = 1;
+
 
     public static CameraFragment newInstance() {
         CameraFragment fragment = new CameraFragment();
@@ -43,9 +47,12 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
         cameraSurfaceView = view.findViewById(R.id.cameraSurfaceView);
         cameraSurfaceHolder = cameraSurfaceView.getHolder();
-        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-        }else {
+
+//        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+        } else {
             cameraSurfaceHolder.addCallback(this);
             cameraSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
@@ -75,7 +82,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        camera = Camera.open();
+        camera = android.hardware.Camera.open();
 
         Camera.Parameters parameters;
         parameters = camera.getParameters();
@@ -112,7 +119,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        super.onRequestPermissionsResult(requestCode, permissions, Objects.requireNonNull(grantResults));
         switch (requestCode){
             case CAMERA_REQUEST_CODE:{
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){

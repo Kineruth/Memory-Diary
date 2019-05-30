@@ -36,13 +36,13 @@
 
     <TextView
         android:id="@+id/tapAnywhereToConTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="303dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/welcomeIV"
         android:layout_alignBottom="@+id/tapAnywhereToConBTN"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginBottom="65dp"
         android:fontFamily="@font/maitree"
         android:orientation="vertical"
         android:paddingTop="10dp"
@@ -50,6 +50,6 @@
         android:text="Tap anywhere to continue"
         android:textAlignment="center"
         android:textColor="#007d8c"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 </RelativeLayout>

@@ -3,9 +3,9 @@
     android:shape="rectangle">
     <corners android:radius="5dp" />
     <gradient android:angle="270"
-        android:centerColor="@color/colorPrimary"
-        android:endColor="@color/colorPrimary"
-        android:startColor="@color/colorPrimary" />
+        android:centerColor="@color/lightBlue"
+        android:endColor="@color/lightBlue"
+        android:startColor="@color/lightBlue" />
     <stroke
         android:width="1dp"
         android:color="@color/editTextFloating" />
