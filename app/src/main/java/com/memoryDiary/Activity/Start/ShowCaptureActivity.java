@@ -25,7 +25,7 @@ public class ShowCaptureActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         assert extras != null;
-        byte[] picture = extras.getByteArray("capture");
+        picture = extras.getByteArray("capture");
 
         if(picture != null){
             ImageView image = findViewById(R.id.imageViewCaptured);
