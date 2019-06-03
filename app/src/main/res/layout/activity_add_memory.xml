@@ -55,7 +55,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/add_memory_button"
+        android:id="@+id/done_button"
         android:layout_width="wrap_content"
         android:layout_height="89dp"
         android:layout_below="@+id/add_memory_description"

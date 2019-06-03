@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.memoryDiary.Activity.Start.ShowCaptureActivity;
 import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
@@ -66,10 +65,10 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
         memoryImageView = findViewById(R.id.add_memory_image);
         descriptionAddText = findViewById(R.id.add_memory_description);
         descriptionAddText.setMovementMethod(new ScrollingMovementMethod());
-        findViewById(R.id.add_memory_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.done_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickOnAddMemory();
+                clickOnDone();
             }
         });
         Bundle extras = getIntent().getExtras();
@@ -92,7 +91,8 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     private void initFireBase(){
         mData = FirebaseDatabase.getInstance().getReference();
         key = mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).push().getKey();
-        memoryImageRef = FirebaseStorage.getInstance().getReference().child("Memory").child(UserDataHolder.getUserDataHolder().getUser().getUid());
+//        memoryImageRef = FirebaseStorage.getInstance().getReference().child("Memory").child(UserDataHolder.getUserDataHolder().getUser().getUid());
+        memoryImageRef = FirebaseStorage.getInstance().getReference().child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid());
     }
 
     private void initValidator(){
@@ -126,7 +126,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                 .setHomeAsUpIndicatorDrawable(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_black_24dp))
                 .setOkButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_check_black_24dp))
                 .setActionBarTitle("Albums")
-                .setAllViewTitle("All photos")
+                .setAllViewTitle("All Photos")
                 .textOnNothingSelected("No picture selected")
                 .startAlbum();
     }
@@ -140,7 +140,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
         }
     }
 
-    private void clickOnAddMemory() {
+    private void clickOnDone() {
         validator.validate();
         if(valIsDone && imageUri != null){
             final Memory memory = new Memory(key,
