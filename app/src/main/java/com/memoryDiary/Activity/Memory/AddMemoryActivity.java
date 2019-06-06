@@ -112,7 +112,6 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     }
 
     private void clickOnMemoryImage() {
-        Toast.makeText(this, "choose1", Toast.LENGTH_LONG).show();
         FishBun.with(this).setImageAdapter(new GlideAdapter())
                 .setMinCount(1)
                 .setMaxCount(1)

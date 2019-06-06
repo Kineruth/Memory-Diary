@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,17 +24,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.Activity.Memory.AddMemoryActivity;
 import com.memoryDiary.Activity.Start.LoginActivity;
-import com.memoryDiary.Adapter.MemoryAdapter;
+import com.memoryDiary.Adapter.DiaryAdapter;
+import com.memoryDiary.Entity.Diary;
 import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.DiaryDataHolder;
 import com.memoryDiary.Holder.MemoryDataHolder;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MemoryFragment extends Fragment {
 
@@ -43,8 +41,8 @@ public class MemoryFragment extends Fragment {
     private Toolbar mToolbar;
     private FloatingActionButton mFabAdd;
     private RecyclerView memoryRecyclerView;
-    private MemoryAdapter adapter;
-    private List<Memory> memories;
+    private DiaryAdapter diaryAdapter;
+    private Diary memories;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
 
@@ -62,6 +60,12 @@ public class MemoryFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRecyclerView();
+    }
+
     /**
      * Initialization the connection of the fields in xml file to their activities.
      */
@@ -69,19 +73,20 @@ public class MemoryFragment extends Fragment {
         mToolbar = mView.findViewById(R.id.fragment_memory_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
+        mToolbar.setTitle("");
+//        mToolbar.setBackgroundColor(@android:color/transparent);
 //        setTitle(R.id.memory_toolbar);
         mFabAdd = mView.findViewById(R.id.memory_add_floating_button);
         memoryRecyclerView = mView.findViewById(R.id.memory_recyclerview);
         memoryRecyclerView.setHasFixedSize(true);
         memoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
-        memories = new ArrayList<>();
-        adapter = new MemoryAdapter(getActivity(), memories);
-        memoryRecyclerView.setAdapter(adapter);
+        memories = new Diary();
+        diaryAdapter = new DiaryAdapter(getActivity(), memories);
+        memoryRecyclerView.setAdapter(diaryAdapter);
 
         mFabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Add Memo", Toast.LENGTH_SHORT).show();
                 addMemoryActivity();
             }
         });
@@ -92,24 +97,37 @@ public class MemoryFragment extends Fragment {
         mData = FirebaseDatabase.getInstance().getReference();
     }
 
-    private void initRecyclerView() {
-        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).addValueEventListener(new ValueEventListener() {
+    /**
+     * Initializing a recycle view.
+     */
+    public void initRecyclerView() {
+        mData.child("Diary").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            /**
+             * It is triggered once when the listener is attached,
+             * and again every time the data, including children, changes.
+             * @param dataSnapshot the data.
+             */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                memories.clear();
+                memories.clearMemories();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
-                    Memory memory = data.getValue(Memory.class);
-                    Log.d("changed fireB data", memory.toString());
-                    memories.add(memory);
+                    Memory memo = data.getValue(Memory.class);
+                    memories.addMemory(memo);
                 }
-                adapter.notifyDataSetChanged();
+                diaryAdapter.notifyDataSetChanged();
             }
 
+            /**
+             * when an error occurs.
+             * @param databaseError the errors.
+             */
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
     }
-
     /**
      * Used to specify the options menu for an activity
      * @param menu a given menu to be displayed.
@@ -138,7 +156,6 @@ public class MemoryFragment extends Fragment {
 //            SettingsActivity();
         }
         if(item.getItemId() == R.id.logout_option){
-            Toast.makeText(getActivity(), "Login", Toast.LENGTH_SHORT).show();
             loginActivity();
         }
         return true;

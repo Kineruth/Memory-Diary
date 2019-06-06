@@ -9,24 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.memoryDiary.Activity.Memory.ShowMemoryActivity;
+import com.memoryDiary.Entity.Diary;
 import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.MemoryDataHolder;
 import com.memoryDiary.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
-public class MemoryAdapter extends RecyclerView.Adapter <MemoryAdapter.MemoryViewHolder> {
+public class DiaryAdapter extends RecyclerView.Adapter <DiaryAdapter.MemoryViewHolder> {
 
 private Context mContext;
-private List<Memory> mData;
+private Diary memories;
 
-    public MemoryAdapter(Context mContext, List<Memory> mData) {
+    public DiaryAdapter(Context mContext, Diary mData) {
         this.mContext = mContext;
-        this.mData = mData;
+        this.memories = mData;
     }
 
     @NonNull
@@ -36,17 +34,17 @@ private List<Memory> mData;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         /* inflate the xml which gives us a view */
         View view = mInflater.inflate(R.layout.memory_cardview_item, null);
-        MemoryAdapter.MemoryViewHolder holder = new MemoryAdapter.MemoryViewHolder(view);
+        DiaryAdapter.MemoryViewHolder holder = new DiaryAdapter.MemoryViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MemoryViewHolder memoryViewHolder, int i) {
-        memoryViewHolder.txv_memory_title.setText(mData.get(i).getMemoryTitle());
+        memoryViewHolder.txv_memory_title.setText(memories.getMemory(i).getMemoryTitle());
 //        myViewHolder.img_memory_thumbnail.setImageResource(mData.get(i).getImagePath());
                 //maybe need to change and do picaso & on click & if empty
 
-        final Memory memory = mData.get(i);
+        final Memory memory = memories.getMemory(i);
         memoryViewHolder.txv_memory_title.setText(memory.getMemoryTitle());
         if(!memory.getImagePath().isEmpty())
             Picasso.get().load(memory.getImagePath()).into(memoryViewHolder.img_memory_thumbnail);
@@ -64,7 +62,7 @@ private List<Memory> mData;
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return memories.getAmount();
     }
 
     public static class MemoryViewHolder extends RecyclerView.ViewHolder{
@@ -77,5 +75,7 @@ private List<Memory> mData;
             img_memory_thumbnail = itemView.findViewById(R.id.memory_img_id);
         }
     }
+
+
 }
 

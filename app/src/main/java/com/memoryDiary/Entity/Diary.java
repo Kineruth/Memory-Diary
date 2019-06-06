@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Diary {
     private User owner;
-    private ArrayList<Memory> memories;
+    private ArrayList<Memory> memories = new ArrayList<>();;
 
     public Diary(){}
 
@@ -14,7 +14,7 @@ public class Diary {
      */
     public Diary(User owner){
         this.owner = owner;
-        this.memories = new ArrayList<Memory>();
+//        this.memories = new ArrayList<Memory>();
     }
 
     /**
@@ -32,10 +32,13 @@ public class Diary {
      * @param memory memory to be append to the diary
      * @return true if the memory appended successfully
      */
-    public boolean insertMemory(Memory memory){
+    public boolean addMemory(Memory memory){
         return this.memories.add(memory);
     }
 
+    public Memory getMemory(int i){ return this.memories.get(i); }
+
+    public int getAmount(){ return this.memories.size(); }
     /**
      * Gets all the contents of the diary
      * @return memories collection
@@ -50,6 +53,7 @@ public class Diary {
             this.memories.clear();
             this.memories.addAll(d.memories);
         }
-
     }
+
+    public void clearMemories (){ this.memories.clear(); }
 }
