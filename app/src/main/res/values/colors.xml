@@ -12,6 +12,7 @@
     <color name="white">#ffffff</color>
     <color name="grey">#767676</color>
     <color name="black">#000</color>
+    <color name="red">#DD0202</color>
     <color name="darkOrange">#B75B19</color>
     <color name="gold">#DAA500</color>
 </resources>

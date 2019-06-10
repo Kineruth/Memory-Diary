@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
 
+
     public MainActivity() {}
 
 
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
      * Initialization the connection of the fields in xml file to their activities.
      */
     private void initFields(){
-        mToolbar = this.findViewById(R.id.fragment_memory_toolbar);
-        setActionBar(mToolbar);
+//        mToolbar = this.findViewById(R.id.fragment_memory_toolbar);
+//        setActionBar(mToolbar);
     }
 
     /**

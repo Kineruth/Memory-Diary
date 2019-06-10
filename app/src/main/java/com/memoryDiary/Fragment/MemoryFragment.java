@@ -1,30 +1,26 @@
 package com.memoryDiary.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.Activity.Memory.AddMemoryActivity;
 import com.memoryDiary.Activity.Start.LoginActivity;
 import com.memoryDiary.Adapter.DiaryAdapter;
@@ -38,8 +34,8 @@ import com.memoryDiary.R;
 public class MemoryFragment extends Fragment {
 
     private View mView;
-    private Toolbar mToolbar;
-    private FloatingActionButton mFabAdd;
+    private FloatingActionMenu fabMenu;
+    private FloatingActionButton fabSearch, fabAdd, fabLogout;
     private RecyclerView memoryRecyclerView;
     private DiaryAdapter diaryAdapter;
     private Diary memories;
@@ -70,13 +66,6 @@ public class MemoryFragment extends Fragment {
      * Initialization the connection of the fields in xml file to their activities.
      */
     private void initFields() {
-        mToolbar = mView.findViewById(R.id.fragment_memory_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        setHasOptionsMenu(true);
-        mToolbar.setTitle("");
-//        mToolbar.setBackgroundColor(@android:color/transparent);
-//        setTitle(R.id.memory_toolbar);
-        mFabAdd = mView.findViewById(R.id.memory_add_floating_button);
         memoryRecyclerView = mView.findViewById(R.id.memory_recyclerview);
         memoryRecyclerView.setHasFixedSize(true);
         memoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
@@ -84,10 +73,53 @@ public class MemoryFragment extends Fragment {
         diaryAdapter = new DiaryAdapter(getActivity(), memories);
         memoryRecyclerView.setAdapter(diaryAdapter);
 
-        mFabAdd.setOnClickListener(new View.OnClickListener() {
+        fabMenu = mView.findViewById(R.id.add_memory_fab_menu);
+        fabSearch = mView.findViewById(R.id.add_memory_fab_search);
+        fabAdd = mView.findViewById(R.id.add_memory_fab_add);
+        fabLogout = mView.findViewById(R.id.add_memory_fab_logout);
+
+        fabMenu.bringToFront();
+        //color when not pressed
+        fabAdd.setColorNormal(getResources().getColor(R.color.babyBlue));
+        fabSearch.setColorNormal(getResources().getColor(R.color.babyBlue));
+        fabLogout.setColorNormal(getResources().getColor(R.color.babyBlue));
+        //color when pressed
+        fabAdd.setColorPressed(getResources().getColor(R.color.red));
+        fabSearch.setColorPressed(getResources().getColor(R.color.red));
+        fabLogout.setColorPressed(getResources().getColor(R.color.red));
+
+        fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                searchActivity();
+            }
+        });
+
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 addMemoryActivity();
+            }
+        });
+
+        fabLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Logout")
+                        .setMessage("Sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                logoutActivity();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // user doesn't want to logout
+                            }
+                        })
+                        .show();
+
             }
         });
     }
@@ -128,38 +160,7 @@ public class MemoryFragment extends Fragment {
             }
         });
     }
-    /**
-     * Used to specify the options menu for an activity
-     * @param menu a given menu to be displayed.
-     * @return true to be displayed.
-     */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.activity_memory_menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
-    }
 
-    /**
-     * Checked what was chosen - adding or searching in the personal diary.
-     * @param item an item that has been selected.
-     * @return false to allow normal menu processing to proceed, true to consume it here.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.search_option) {
-            Toast.makeText(getActivity(), "Search", Toast.LENGTH_SHORT).show();
-//            SearchActivity();
-        }
-        if(item.getItemId() == R.id.settings_option) {
-            Toast.makeText(getActivity(), "Settings", Toast.LENGTH_SHORT).show();
-//            SettingsActivity();
-        }
-        if(item.getItemId() == R.id.logout_option){
-            loginActivity();
-        }
-        return true;
-    }
 
     /**
      * When clicked on the add FAB will open the add new memory activity.
@@ -181,7 +182,7 @@ public class MemoryFragment extends Fragment {
      * Connects to login activity and starts it.
      * An intent - basically a message to say you did or want something to happen.
      */
-    private void loginActivity() {
+    private void logoutActivity() {
         clearDataHolderes();
         mAuth.signOut();
         Intent intent = new Intent(this.getActivity(), LoginActivity.class);
@@ -189,8 +190,8 @@ public class MemoryFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void SearchActivity(){
-
+    private void searchActivity(){
+        Toast.makeText(getActivity(), "search", Toast.LENGTH_SHORT).show();
     }
 
     private void clearDataHolderes() {
