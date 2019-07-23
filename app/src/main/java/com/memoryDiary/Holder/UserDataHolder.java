@@ -3,11 +3,11 @@ package com.memoryDiary.Holder;
 import com.memoryDiary.Entity.User;
 
 public class UserDataHolder {
-    private User user = null;
+    private User user;
     private static final UserDataHolder data = new UserDataHolder();
 
     private UserDataHolder(){
-        user = new User();
+        this.user = new User();
     }
 
     public static UserDataHolder getUserDataHolder(){
@@ -15,10 +15,10 @@ public class UserDataHolder {
     }
 
     public User getUser(){
-        return user;
+        return this.user;
     }
 
     public void clearUser(){
-        user.setAll(new User());
+        this.user.setAll(new User());
     }
 }

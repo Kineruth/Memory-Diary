@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,7 @@
     tools:context="com.memoryDiary.Activity.Memory.AddMemoryActivity">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_memory_fabDone"
+        android:id="@+id/edit_memory_fabDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -18,7 +19,7 @@
         android:layout_margin="16dp"/>
 
     <EditText
-        android:id="@+id/add_memory_title"
+        android:id="@+id/edit_memory_title"
         android:layout_width="366dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -38,19 +39,19 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/add_memory_image"
+        android:id="@+id/edit_memory_image"
         android:layout_width="match_parent"
         android:layout_height="215dp"
-        android:layout_below="@+id/add_memory_title"
+        android:layout_below="@+id/edit_memory_title"
         android:layout_marginTop="18dp"
         android:scaleType="fitCenter"
         android:src="@drawable/add_memory_image" />
 
     <EditText
-        android:id="@+id/add_memory_description"
+        android:id="@+id/edit_memory_description"
         android:layout_width="389dp"
         android:layout_height="265dp"
-        android:layout_below="@+id/add_memory_image"
+        android:layout_below="@+id/edit_memory_image"
         android:layout_marginLeft="7dp"
         android:layout_marginTop="22dp"
         android:layout_marginRight="7dp"
@@ -62,4 +63,4 @@
         android:inputType="textCapSentences|textMultiLine"
         android:scrollbars="vertical"
         android:textSize="18sp" />
-</RelativeLayout>
+    </RelativeLayout>

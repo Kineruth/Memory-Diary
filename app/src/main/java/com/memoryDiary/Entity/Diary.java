@@ -14,7 +14,6 @@ public class Diary {
      */
     public Diary(User owner){
         this.owner = owner;
-//        this.memories = new ArrayList<Memory>();
     }
 
     /**

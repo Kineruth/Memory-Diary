@@ -60,8 +60,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                ", name='" + name + '\'' +
-                ", uid='" + uid + '\'' +
+                ", name='" + this.name + '\'' +
+                ", uid='" + this.uid + '\'' +
                 '}';
     }
 }

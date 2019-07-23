@@ -8,11 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,10 +52,10 @@ public class MemoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_memory, container, false);
+        this.mView = inflater.inflate(R.layout.fragment_memory, container, false);
         initFields();
         initFireBase();
-        return mView;
+        return this.mView;
     }
 
     @Override
@@ -66,43 +68,46 @@ public class MemoryFragment extends Fragment {
      * Initialization the connection of the fields in xml file to their activities.
      */
     private void initFields() {
-        memoryRecyclerView = mView.findViewById(R.id.memory_recyclerview);
-        memoryRecyclerView.setHasFixedSize(true);
-        memoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
-        memories = new Diary();
-        diaryAdapter = new DiaryAdapter(getActivity(), memories);
-        memoryRecyclerView.setAdapter(diaryAdapter);
+        this.memoryRecyclerView = this.mView.findViewById(R.id.memory_recyclerview);
+        // sets layout manager for RecyclerView, to be able to draw the layout properly.
+        LinearLayoutManager manager = new LinearLayoutManager(this.getActivity());
+        this.memoryRecyclerView.setLayoutManager(manager);
+        this.memoryRecyclerView.setHasFixedSize(true);
+        this.memoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        this.memories = new Diary();
+        this.diaryAdapter = new DiaryAdapter(getActivity(), memories);
+        this.memoryRecyclerView.setAdapter(diaryAdapter);
 
-        fabMenu = mView.findViewById(R.id.add_memory_fab_menu);
-        fabSearch = mView.findViewById(R.id.add_memory_fab_search);
-        fabAdd = mView.findViewById(R.id.add_memory_fab_add);
-        fabLogout = mView.findViewById(R.id.add_memory_fab_logout);
+        this.fabMenu = this.mView.findViewById(R.id.add_memory_fab_menu);
+        this.fabSearch = this.mView.findViewById(R.id.add_memory_fab_search);
+        this.fabAdd = this.mView.findViewById(R.id.add_memory_fab_add);
+        this.fabLogout = this.mView.findViewById(R.id.add_memory_fab_logout);
 
-        fabMenu.bringToFront();
+        this.fabMenu.bringToFront();
         //color when not pressed
-        fabAdd.setColorNormal(getResources().getColor(R.color.babyBlue));
-        fabSearch.setColorNormal(getResources().getColor(R.color.babyBlue));
-        fabLogout.setColorNormal(getResources().getColor(R.color.babyBlue));
+        this.fabAdd.setColorNormal(getResources().getColor(R.color.babyBlue));
+        this.fabSearch.setColorNormal(getResources().getColor(R.color.babyBlue));
+        this.fabLogout.setColorNormal(getResources().getColor(R.color.babyBlue));
         //color when pressed
-        fabAdd.setColorPressed(getResources().getColor(R.color.red));
-        fabSearch.setColorPressed(getResources().getColor(R.color.red));
-        fabLogout.setColorPressed(getResources().getColor(R.color.red));
+        this.fabAdd.setColorPressed(getResources().getColor(R.color.red));
+        this.fabSearch.setColorPressed(getResources().getColor(R.color.red));
+        this.fabLogout.setColorPressed(getResources().getColor(R.color.red));
 
-        fabSearch.setOnClickListener(new View.OnClickListener() {
+        this.fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchActivity();
             }
         });
 
-        fabAdd.setOnClickListener(new View.OnClickListener() {
+        this.fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addMemoryActivity();
             }
         });
 
-        fabLogout.setOnClickListener(new View.OnClickListener() {
+        this.fabLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(getActivity())
@@ -125,15 +130,15 @@ public class MemoryFragment extends Fragment {
     }
 
     private void initFireBase(){
-        mAuth = FirebaseAuth.getInstance();
-        mData = FirebaseDatabase.getInstance().getReference();
+        this.mAuth = FirebaseAuth.getInstance();
+        this.mData = FirebaseDatabase.getInstance().getReference();
     }
 
     /**
      * Initializing a recycle view.
      */
     public void initRecyclerView() {
-        mData.child("Diary").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        this.mData.child("Diary").child(this.mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 
             /**
              * It is triggered once when the listener is attached,
@@ -170,9 +175,9 @@ public class MemoryFragment extends Fragment {
         startActivity(intent);
     }
 
-    /**
-     * Connects to the settings activity and starts it.
-     */
+//    /**
+//     * Connects to the settings activity and starts it.
+//     */
 //    private void SettingsActivity() {
 //        Intent intent = new Intent(this.getActivity(), SettingsActivity.class);
 //        startActivity(intent);
@@ -184,7 +189,7 @@ public class MemoryFragment extends Fragment {
      */
     private void logoutActivity() {
         clearDataHolderes();
-        mAuth.signOut();
+        this.mAuth.signOut();
         Intent intent = new Intent(this.getActivity(), LoginActivity.class);
         startActivity(intent);
         getActivity().finish();

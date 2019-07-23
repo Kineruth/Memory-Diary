@@ -3,11 +3,11 @@ import com.memoryDiary.Entity.Memory;
 
 public class MemoryDataHolder {
 
-    private Memory memory = null;
+    private Memory memory;
     private static final MemoryDataHolder data = new MemoryDataHolder();
 
     private MemoryDataHolder(){
-        memory = new Memory();
+        this.memory = new Memory();
     }
 
     public static MemoryDataHolder getMemoryDataHolder(){
@@ -15,10 +15,10 @@ public class MemoryDataHolder {
     }
 
     public Memory getMemory(){
-        return memory;
+        return this.memory;
     }
 
     public void clearMemory(){
-        memory.setAll(new Memory());
+        this.memory.setAll(new Memory());
     }
 }

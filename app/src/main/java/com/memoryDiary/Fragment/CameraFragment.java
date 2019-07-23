@@ -32,9 +32,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
     public SurfaceView cameraSurfaceView;
     public SurfaceHolder cameraSurfaceHolder;
     private final int CAMERA_REQUEST_CODE = 1;
-    public MainActivity mainActivity = (MainActivity) getActivity();
-
-
 
 
     public static CameraFragment newInstance() {
@@ -131,6 +128,30 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
                 break;
             }
 
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(camera != null){
+            camera.release();
+            camera = null;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Need to release if we already have one, or we won't get the camera
+        if(camera != null){
+            camera.release();
+            camera = null;
+        }
+        try {
+            camera = Camera.open();
+        }
+        catch (Exception e){
         }
     }
 }

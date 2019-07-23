@@ -32,7 +32,7 @@ public class Memory {
     }
 
     public String getUid() {
-        return uid;
+        return this.uid;
     }
 
     public void setUid(String uid) {
@@ -43,7 +43,7 @@ public class Memory {
      * @return this Memory's name.
      */
     public String getMemoryTitle() {
-        return memoryTitle;
+        return this.memoryTitle;
     }
 
     /**
@@ -58,7 +58,7 @@ public class Memory {
      * @return this Memory's description.
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Memory {
      * @return this Memory's creation time.
      */
     public long getCreationTime() {
-        return creationTime;
+        return this.creationTime;
     }
 
     /**
@@ -85,7 +85,7 @@ public class Memory {
     }
 
     public String getImagePath() {
-        return imagePath;
+        return this.imagePath;
     }
 
     public void setImagePath(String imagePath) {

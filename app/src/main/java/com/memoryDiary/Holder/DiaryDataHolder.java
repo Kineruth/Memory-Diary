@@ -3,11 +3,11 @@ package com.memoryDiary.Holder;
 import com.memoryDiary.Entity.Diary;
 
 public class DiaryDataHolder {
-    private Diary diary = null;
+    private Diary diary;
     private static final DiaryDataHolder data = new DiaryDataHolder();
 
     private DiaryDataHolder(){
-        diary = new Diary();
+        this.diary = new Diary();
     }
 
     public static DiaryDataHolder getDiaryDataHolder(){
@@ -15,10 +15,10 @@ public class DiaryDataHolder {
     }
 
     public Diary getDiary(){
-        return diary;
+        return this.diary;
     }
 
     public void clearDiary(){
-        diary.setAll(new Diary());
+        this.diary.setAll(new Diary());
     }
 }

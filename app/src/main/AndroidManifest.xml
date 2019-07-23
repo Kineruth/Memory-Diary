@@ -30,6 +30,7 @@
         <activity android:name=".Activity.Start.ShowCaptureActivity" />
         <activity android:name=".Activity.Memory.AddMemoryActivity"/>
         <activity android:name=".Activity.Memory.ShowMemoryActivity" />
+        <activity android:name=".Activity.Memory.EditMemoryActivity" />
         <activity android:name=".Activity.Main.MainActivity" />
 
     </application>
