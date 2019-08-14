@@ -2,14 +2,12 @@ package com.memoryDiary.Activity.Start;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.memoryDiary.Activity.Main.MainActivity;
-import com.memoryDiary.Fragment.CameraFragment;
 import com.memoryDiary.R;
 
 public class WelcomeActivity extends AppCompatActivity {

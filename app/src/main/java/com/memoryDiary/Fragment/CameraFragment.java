@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,13 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.Activity.Start.ShowCaptureActivity;
 import com.memoryDiary.R;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 
 public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
@@ -88,7 +86,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
         parameters.setPreviewFrameRate(30);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 
-        Camera.Size bestSize = null;
+        Camera.Size bestSize;
         List<Camera.Size> sizeList = camera.getParameters().getSupportedPreviewSizes();
         bestSize = sizeList.get(0);
         for(int i = 1; i < sizeList.size(); i++){

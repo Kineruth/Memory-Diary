@@ -6,7 +6,7 @@
     android:background="@color/colorAccent"
     tools:context="com.memoryDiary.Activity.Memory.AddMemoryActivity">
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_memory_fabDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

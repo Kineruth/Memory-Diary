@@ -2,7 +2,7 @@ package com.memoryDiary.Activity.Start;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +24,6 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Pattern;
 
 import java.util.List;
-import android.widget.Toast;
 
 public class RegistrationActivity extends AppCompatActivity implements Validator.ValidationListener{
     @NotEmpty()
