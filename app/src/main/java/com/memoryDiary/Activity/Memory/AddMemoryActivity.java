@@ -7,7 +7,11 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +24,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,6 +43,8 @@ import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -145,11 +156,42 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     private void clickOnDone() {
         this.validator.validate();
         if(this.valIsDone && this.imageUri != null){
-            final Memory memory = new Memory(key,
+            FirebaseVisionImage image = null;
+            try {
+                image = FirebaseVisionImage.fromFilePath(this, imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FirebaseVisionCloudImageLabelerOptions options =
+                    new FirebaseVisionCloudImageLabelerOptions.Builder()
+                            .setConfidenceThreshold(0.7f)
+                            .build();
+            FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
+                    .getCloudImageLabeler(options);
+            final ArrayList<String> imageLabels = new ArrayList<>();
+            labeler.processImage(image)
+                    .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                        @Override
+                        public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+                            // Task completed successfully...
+                            for (FirebaseVisionImageLabel label: labels) {
+                                imageLabels.add(label.getText());
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Task failed with an exception
+                            // ...
+                        }
+                    });
+            final Memory memory = new Memory(UserDataHolder.getUserDataHolder().getUser().getUid(),
+                    key,
                     this.titleText.getText().toString(),
                     this.descriptionText.getText().toString(),
                     Calendar.getInstance().getTimeInMillis(),
-                    "");
+                    "", imageLabels);
             final StorageReference filePath = this.memoImageRef.child(this.key + ".jpg");
             filePath.putFile(this.imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * A Memory is an imagePath and its description. It has other parameters.
  */
 public class Memory {
-    private String uid;
+    private String userId; //The owner of the memory
+    private String memoryId;
     private String memoryTitle;
     private String description;
     private long creationTime;
@@ -18,8 +19,9 @@ public class Memory {
     public Memory() {
     }
 
-    public Memory(String uid, String memoryTitle, String description, long creationTime, String image, ArrayList<String> imageLabels) {
-        this.uid = uid;
+    public Memory(String userId, String memoryId, String memoryTitle, String description, long creationTime, String image, ArrayList<String> imageLabels) {
+        this.userId = userId;
+        this.memoryId = memoryId;
         this.memoryTitle = memoryTitle;
         this.description = description;
         this.creationTime = creationTime;
@@ -28,7 +30,8 @@ public class Memory {
     }
 
     public Memory(Memory memory){
-        this.uid = memory.uid;
+        this.userId = memory.userId;
+        this.memoryId = memory.memoryId;
         this.memoryTitle = memory.memoryTitle;
         this.description = memory.description;
         this.creationTime = memory.creationTime;
@@ -36,12 +39,20 @@ public class Memory {
         this.imageLabels= memory.imageLabels;
     }
 
-    public String getUid() {
-        return this.uid;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getMemoryId() {
+        return this.memoryId;
+    }
+
+    public void setMemoryId(String memoryId) {
+        this.memoryId = memoryId;
     }
 
     /**
@@ -102,7 +113,8 @@ public class Memory {
     public void setImageLabels(ArrayList<String> imageLabels){ this.imageLabels = imageLabels; }
 
     public void setAll(Memory m){
-        this.uid = m.uid;
+        this.userId = m.userId;
+        this.memoryId = m.memoryId;
         this.memoryTitle = m.memoryTitle;
         this.description = m.description;
         this.creationTime = m.creationTime;

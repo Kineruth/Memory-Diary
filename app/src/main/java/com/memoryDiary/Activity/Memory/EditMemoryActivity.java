@@ -20,6 +20,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,6 +40,8 @@ import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -45,9 +52,10 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
     private EditText titleText;
     private ImageView memoImageView;
     private String currentImagePath;
+    private ArrayList<String> currentImageLables;
     private DatabaseReference mData;
     private StorageReference memoImageRef;
-    private String mUid;
+    private String memoryId;
     private Uri imageUri = null;
     private Validator validator;
     private static boolean valIsDone;
@@ -94,8 +102,9 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
      */
     private void initFireBase(){
         this.mData = FirebaseDatabase.getInstance().getReference();
-        this.mUid = this.memory.getUid();
+        this.memoryId = this.memory.getMemoryId();
         this.currentImagePath = this.memory.getImagePath();
+        this.currentImageLables= this.memory.getImageLabels();
         this.memoImageRef = FirebaseStorage.getInstance().getReference().child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid());
     }
 
@@ -151,16 +160,18 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
         this.validator.validate();
         //if everything valid & chose a new image - imageURI won't be null
         if(this.valIsDone) {
-            final Memory memo = new Memory(this.mUid,
+            final Memory memo = new Memory(UserDataHolder.getUserDataHolder().getUser().getUid(),
+                    this.memoryId,
                     this.titleText.getText().toString(),
                     this.descriptionText.getText().toString(),
                     Calendar.getInstance().getTimeInMillis(),
-                    "");
+                    "",
+                    null);
             this.memory.setAll(memo); //sets the new edited memory
 
             //user changed picture - need to delete old one and replace with new
             if(this.imageUri != null){
-                this.memoImageRef.child(this.mUid + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                this.memoImageRef.child(this.memoryId + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         uploadNewImage();
@@ -174,8 +185,9 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
             }
             else{ //no need to update storage
                 this.memory.setImagePath(this.currentImagePath);
-                mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid())
-                        .child(mUid).setValue(memory).addOnSuccessListener(new OnSuccessListener<Void>() {
+                this.memory.setImageLabels(this.currentImageLables);
+                mData.child("Diary").child(memory.getUserId())
+                        .child(memory.getMemoryId()).setValue(memory).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         finish();
@@ -189,8 +201,39 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
     }
 
     private void uploadNewImage(){
+        FirebaseVisionImage image = null;
+        try {
+            image = FirebaseVisionImage.fromFilePath(this, imageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FirebaseVisionCloudImageLabelerOptions options =
+                new FirebaseVisionCloudImageLabelerOptions.Builder()
+                        .setConfidenceThreshold(0.7f)
+                        .build();
+        FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
+                .getCloudImageLabeler(options);
+        final ArrayList<String> imageLabels = new ArrayList<>();
+        labeler.processImage(image)
+                .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                    @Override
+                    public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+                        // Task completed successfully...
+                        for (FirebaseVisionImageLabel label: labels) {
+                            imageLabels.add(label.getText());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Task failed with an exception
+                        // ...
+                    }
+                });
+        memory.setImageLabels(imageLabels);
         // goes to the user storage for pictures and overwrites a picture if needed
-        final StorageReference filePath = this.memoImageRef.child(this.mUid + ".jpg");
+        final StorageReference filePath = this.memoImageRef.child(this.memoryId + ".jpg");
         filePath.putFile(this.imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -198,8 +241,8 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
                     @Override
                     public void onSuccess(Uri uri) {
                         memory.setImagePath(uri.toString());
-                        mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid())
-                                .child(mUid).setValue(memory).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        mData.child("Diary").child(memory.getUserId())
+                                .child(memory.getMemoryId()).setValue(memory).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 finish();

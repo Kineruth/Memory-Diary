@@ -81,7 +81,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
 
     private void initMemoryDetails() {
         this.memory = MemoryDataHolder.getMemoryDataHolder().getMemory();
-        this.memoryUid = this.memory.getUid();
+        this.memoryUid = this.memory.getMemoryId();
         this.imagePath = this.memory.getImagePath();
         this.titleText.setText(this.memory.getMemoryTitle());
         this.descriptionText.setText(this.memory.getDescription());
