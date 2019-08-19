@@ -1,6 +1,8 @@
 package com.memoryDiary.Entity;
 
 
+import java.util.ArrayList;
+
 /**
  * This class represents a single Memory in a Diary.
  * A Memory is an imagePath and its description. It has other parameters.
@@ -11,16 +13,18 @@ public class Memory {
     private String description;
     private long creationTime;
     private String imagePath;
+    private ArrayList<String> imageLabels = null;
 
     public Memory() {
     }
 
-    public Memory(String uid, String memoryTitle, String description, long creationTime, String image) {
+    public Memory(String uid, String memoryTitle, String description, long creationTime, String image, ArrayList<String> imageLabels) {
         this.uid = uid;
         this.memoryTitle = memoryTitle;
         this.description = description;
         this.creationTime = creationTime;
         this.imagePath = image;
+        this.imageLabels= imageLabels;
     }
 
     public Memory(Memory memory){
@@ -29,6 +33,7 @@ public class Memory {
         this.description = memory.description;
         this.creationTime = memory.creationTime;
         this.imagePath = memory.imagePath;
+        this.imageLabels= memory.imageLabels;
     }
 
     public String getUid() {
@@ -92,11 +97,16 @@ public class Memory {
         this.imagePath = imagePath;
     }
 
+    public ArrayList<String> getImageLabels(){ return this.imageLabels; }
+
+    public void setImageLabels(ArrayList<String> imageLabels){ this.imageLabels = imageLabels; }
+
     public void setAll(Memory m){
         this.uid = m.uid;
         this.memoryTitle = m.memoryTitle;
         this.description = m.description;
         this.creationTime = m.creationTime;
         this.imagePath = m.imagePath;
+        this.imageLabels = m.imageLabels;
     }
 }
