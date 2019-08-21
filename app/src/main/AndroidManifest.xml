@@ -3,11 +3,14 @@
     package="com.memoryDiary">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
@@ -20,7 +23,9 @@
         <activity android:name=".Activity.Start.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
@@ -28,11 +33,19 @@
         <activity android:name=".Activity.Start.RegistrationActivity" />
         <activity android:name=".Activity.Start.ResetPasswordActivity" />
         <activity android:name=".Activity.Start.ShowCaptureActivity" />
-        <activity android:name=".Activity.Memory.AddMemoryActivity"/>
+        <activity android:name=".Activity.Memory.AddMemoryActivity" />
         <activity android:name=".Activity.Memory.ShowMemoryActivity" />
         <activity android:name=".Activity.Memory.EditMemoryActivity" />
         <activity android:name=".Activity.Main.MainActivity" />
+        <activity android:name=".Activity.Start.SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
     </application>
 
 </manifest>

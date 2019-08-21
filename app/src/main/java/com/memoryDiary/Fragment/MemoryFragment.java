@@ -147,6 +147,8 @@ public class MemoryFragment extends Fragment {
              */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.hasChildren())
+                    return;
                 memories.clearMemories();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     Memory memo = data.getValue(Memory.class);

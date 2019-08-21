@@ -96,16 +96,9 @@ public class RegistrationActivity extends AppCompatActivity implements Validator
                                     .setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    mData.child("Diary")
-                                            .child(mAuth.getCurrentUser().getUid())
-                                            .setValue(new Diary(user))
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
                                                     Toast.makeText(getApplicationContext(),"Succeeded register",Toast.LENGTH_SHORT).show();
                                                     startLoginActivity();
-                                                }
-                                            });
+
                                 }
                             });
                         }
