@@ -2,6 +2,7 @@ package com.memoryDiary.Entity;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a single Memory in a Diary.
@@ -14,12 +15,12 @@ public class Memory {
     private String description;
     private long creationTime;
     private String imagePath;
-    private ArrayList<String> imageLabels = null;
+    private List<String> imageLabels = null;
 
     public Memory() {
     }
 
-    public Memory(String userId, String memoryId, String memoryTitle, String description, long creationTime, String image, ArrayList<String> imageLabels) {
+    public Memory(String userId, String memoryId, String memoryTitle, String description, long creationTime, String image, List<String> imageLabels) {
         this.userId = userId;
         this.memoryId = memoryId;
         this.memoryTitle = memoryTitle;
@@ -108,9 +109,9 @@ public class Memory {
         this.imagePath = imagePath;
     }
 
-    public ArrayList<String> getImageLabels(){ return this.imageLabels; }
+    public List<String> getImageLabels(){ return this.imageLabels; }
 
-    public void setImageLabels(ArrayList<String> imageLabels){ this.imageLabels = imageLabels; }
+    public void setImageLabels(List<String> imageLabels){ this.imageLabels = imageLabels; }
 
     public void setAll(Memory m){
         this.userId = m.userId;

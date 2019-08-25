@@ -78,6 +78,45 @@
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        fab:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintStart_toStartOf="parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:focusable="false"
+                fab:layout_constraintBottom_toBottomOf="parent"
+                fab:layout_constraintStart_toStartOf="parent"
+                fab:layout_constraintTop_toTopOf="parent"
+                fab:iconifiedByDefault="false" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/stats"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        fab:layout_constraintTop_toBottomOf="@+id/toolbar"
+        fab:layout_constraintStart_toStartOf="parent"
+        fab:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/memory_recyclerview"
         android:layout_width="match_parent"

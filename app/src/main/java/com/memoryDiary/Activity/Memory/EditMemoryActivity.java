@@ -52,7 +52,7 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
     private EditText titleText;
     private ImageView memoImageView;
     private String currentImagePath;
-    private ArrayList<String> currentImageLables;
+    private List<String> currentImageLables;
     private DatabaseReference mData;
     private StorageReference memoImageRef;
     private String memoryId;

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -12,10 +13,18 @@ import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.RequestOptions;
+//import com.google.gson.Gson;
+import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import kotlinx.serialization.json.JsonArray;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -43,7 +52,19 @@ public class SearchActivity extends AppCompatActivity {
         index.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
-                // [...]
+                try {
+                    JSONArray hits = content.getJSONArray("hits");
+                    ArrayList<Memory> results = new ArrayList<>();
+                    for(int i = 0; i < hits.length(); i++){
+                        JSONObject jsnobj = hits.getJSONObject(i);
+//                        Gson gson = new Gson();
+//                        Memory m = gson.fromJson(jsnobj.toString(), Memory.class);
+//                        results.add(m);
+                    }
+                    //ArrayAdapter<Memory> arrayAdapter = new ArrayAdapter<Memory>(this, R.layout.activity_search, results);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

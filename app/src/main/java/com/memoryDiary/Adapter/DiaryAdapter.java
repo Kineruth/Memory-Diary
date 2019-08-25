@@ -74,6 +74,11 @@ private Diary memories;
             txv_memory_title = itemView.findViewById(R.id.memory_title_id);
             img_memory_thumbnail = itemView.findViewById(R.id.memory_img_id);
         }
+
+        public void bind(Memory m){
+            txv_memory_title.setText(m.getMemoryTitle());
+            //img_memory_thumbnail.set
+        }
     }
 
 

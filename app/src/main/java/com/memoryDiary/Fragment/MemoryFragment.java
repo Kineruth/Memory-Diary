@@ -7,14 +7,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.algolia.instantsearch.core.connection.ConnectionHandler;
+import com.algolia.instantsearch.core.searchbox.SearchBoxView;
+import com.algolia.instantsearch.helper.android.list.ExtensionsKt;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +38,10 @@ import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.DiaryDataHolder;
 import com.memoryDiary.Holder.MemoryDataHolder;
 import com.memoryDiary.Holder.UserDataHolder;
+import com.memoryDiary.InstantSearch.MyViewModel;
 import com.memoryDiary.R;
+
+import kotlin.jvm.internal.Intrinsics;
 
 public class MemoryFragment extends Fragment {
 
@@ -43,6 +53,8 @@ public class MemoryFragment extends Fragment {
     private Diary memories;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
+    private ConnectionHandler connection = new ConnectionHandler();
+
 
     public static MemoryFragment newInstance() {
         MemoryFragment mFragment = new MemoryFragment();
@@ -56,6 +68,38 @@ public class MemoryFragment extends Fragment {
         initFields();
         initFireBase();
         return this.mView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final MyViewModel viewModel = ViewModelProviders.of(requireActivity()).get(MyViewModel.class);
+
+        viewModel.memories.observe(this, new Observer() {
+            // $FF: synthetic method
+            // $FF: bridge method
+            public void onChanged(Object var1) {
+                this.onChanged((PagedList<Memory>) var1);
+            }
+
+            public final void onChanged(PagedList<Memory> hits) {
+                viewModel.getAdapterMemory().submitList(hits);
+            }
+        });
+
+        RecyclerView recyclerView = view.findViewById(R.id.memory_recyclerview);
+        Intrinsics.checkExpressionValueIsNotNull(recyclerView, "it");
+        recyclerView.setItemAnimator(null);
+        recyclerView.setAdapter(viewModel.getAdapterMemory());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.requireContext()));
+        ExtensionsKt.autoScrollToStart(recyclerView, viewModel.getAdapterMemory());
+
+        SearchBoxView searchBoxView = view.findViewById(R.id.searchView);
+        TextView statsView = view.findViewById(R.id.stats);
+
+        this.connection.plusAssign(com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectionKt.connectView(viewModel.searchBox, searchBoxView));
+
+        //this.connection.plusAssign(StatsConnectionKt.connectView(viewModel.getStats(), (StatsView)statsView, new StatsPresenterImpl((String)null, 1, (DefaultConstructorMarker)null)));
     }
 
     @Override
@@ -205,6 +249,11 @@ public class MemoryFragment extends Fragment {
         UserDataHolder.getUserDataHolder().clearUser();
         DiaryDataHolder.getDiaryDataHolder().clearDiary();
         MemoryDataHolder.getMemoryDataHolder().clearMemory();
+    }
+
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.connection.disconnect();
     }
 
 
