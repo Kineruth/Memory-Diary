@@ -1,90 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context="com.memoryDiary.Fragment.MemoryFragment"
-    android:padding="8dp">
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/add_memory_fab_menu"
-        android:layout_width="297dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-
-        fab:menu_animationDelayPerItem="50"
-        fab:menu_backgroundColor="@android:color/transparent"
-        fab:menu_buttonSpacing="0dp"
-        fab:menu_colorNormal="@color/babyBlue"
-        fab:menu_colorPressed="@color/red"
-        fab:menu_colorRipple="#99FFFFFF"
-        fab:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
-        fab:menu_fab_show_animation="@anim/fab_slide_in_from_right"
-        fab:menu_fab_size="normal"
-        fab:menu_icon="@drawable/ic_add_white_24dp"
-        fab:menu_labels_colorNormal="#333333"
-        fab:menu_labels_colorPressed="#444444"
-        fab:menu_labels_colorRipple="#66FFFFFF"
-        fab:menu_labels_cornerRadius="3dp"
-        fab:menu_labels_ellipsize="none"
-        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-        fab:menu_labels_margin="0dp"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_padding="8dp"
-        fab:menu_labels_paddingBottom="4dp"
-        fab:menu_labels_paddingLeft="8dp"
-        fab:menu_labels_paddingRight="8dp"
-        fab:menu_labels_paddingTop="4dp"
-        fab:menu_labels_position="left"
-        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="false"
-        fab:menu_labels_textColor="#FFFFFF"
-        fab:menu_labels_textSize="14sp"
-        fab:menu_openDirection="up"
-        fab:menu_shadowColor="#66000000"
-        fab:menu_shadowRadius="4dp"
-        fab:menu_shadowXOffset="1dp"
-        fab:menu_shadowYOffset="3dp">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/add_memory_fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_insert_comment_white_24dp"
-            fab:fab_label="Create Memory"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/add_memory_fab_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_search_white_24dp"
-            fab:fab_label="Search"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/add_memory_fab_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_logout_new_white_24dp"
-            fab:fab_label="Logout"
-            fab:fab_size="mini" />
-    </com.github.clans.fab.FloatingActionMenu>
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        fab:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
-        fab:layout_constraintEnd_toEndOf="parent"
-        fab:layout_constraintStart_toStartOf="parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:tools="http://schemas.android.com/tools"
@@ -96,12 +22,13 @@
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:focusable="false"
-                fab:layout_constraintBottom_toBottomOf="parent"
-                fab:layout_constraintStart_toStartOf="parent"
-                fab:layout_constraintTop_toTopOf="parent"
-                fab:iconifiedByDefault="false" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:iconifiedByDefault="false"
+                tools:queryHint="Hello"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -109,20 +36,101 @@
 
     <TextView
         android:id="@+id/stats"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        fab:layout_constraintTop_toBottomOf="@+id/toolbar"
-        fab:layout_constraintStart_toStartOf="parent"
-        fab:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/memory_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_below="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/stats">
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/stats">
 
-</RelativeLayout>
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/add_memory_fab_menu"
+            android:layout_width="297dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            app:menu_animationDelayPerItem="50"
+            app:menu_backgroundColor="@android:color/transparent"
+            app:menu_buttonSpacing="0dp"
+            app:menu_colorNormal="@color/babyBlue"
+            app:menu_colorPressed="@color/red"
+            app:menu_colorRipple="#99FFFFFF"
+            app:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
+            app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
+            app:menu_fab_size="normal"
+            app:menu_icon="@drawable/ic_add_white_24dp"
+            app:menu_labels_colorNormal="#333333"
+            app:menu_labels_colorPressed="#444444"
+            app:menu_labels_colorRipple="#66FFFFFF"
+            app:menu_labels_cornerRadius="3dp"
+            app:menu_labels_ellipsize="none"
+            app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            app:menu_labels_margin="0dp"
+            app:menu_labels_maxLines="-1"
+            app:menu_labels_padding="8dp"
+            app:menu_labels_paddingBottom="4dp"
+            app:menu_labels_paddingLeft="8dp"
+            app:menu_labels_paddingRight="8dp"
+            app:menu_labels_paddingTop="4dp"
+            app:menu_labels_position="left"
+            app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            app:menu_labels_showShadow="true"
+            app:menu_labels_singleLine="false"
+            app:menu_labels_textColor="#FFFFFF"
+            app:menu_labels_textSize="14sp"
+            app:menu_openDirection="up"
+            app:menu_shadowColor="#66000000"
+            app:menu_shadowRadius="4dp"
+            app:menu_shadowXOffset="1dp"
+            app:menu_shadowYOffset="3dp">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/add_memory_fab_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_insert_comment_white_24dp"
+                app:fab_label="Create Memory"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/add_memory_fab_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_white_24dp"
+                app:fab_label="Search"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/add_memory_fab_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_logout_new_white_24dp"
+                app:fab_label="Logout"
+                app:fab_size="mini" />
+        </com.github.clans.fab.FloatingActionMenu>
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

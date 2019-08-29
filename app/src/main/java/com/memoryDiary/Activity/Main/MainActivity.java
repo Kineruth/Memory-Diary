@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         public Fragment getItem(int position) {
             switch(position){
                 case 0: return CameraFragment.newInstance();
-                case 1: return MemoryFragment.newInstance();
+                case 1: return MemoryFragment.Companion.newInstance();
                 default: return null;
             }
         }
