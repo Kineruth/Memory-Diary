@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    tools:context="com.memoryDiary.Activity.Memory.ShowTaggedActivity">
+
+<com.github.clans.fab.FloatingActionMenu
+    android:id="@+id/show_tagged_fab_menu"
+    android:layout_width="241dp"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    android:clickable="true"
+    fab:menu_animationDelayPerItem="50"
+    fab:menu_backgroundColor="@android:color/transparent"
+    fab:menu_buttonSpacing="0dp"
+    fab:menu_colorNormal="@color/babyBlue"
+    fab:menu_colorPressed="@color/red"
+    fab:menu_colorRipple="#99FFFFFF"
+    fab:menu_fab_size="normal"
+    fab:menu_icon="@drawable/ic_more_vert_white_24dp"
+    fab:menu_labels_cornerRadius="3dp"
+    fab:menu_labels_ellipsize="none"
+    fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+    fab:menu_labels_margin="0dp"
+    fab:menu_labels_maxLines="-1"
+    fab:menu_labels_padding="8dp"
+    fab:menu_labels_paddingBottom="4dp"
+    fab:menu_labels_paddingLeft="8dp"
+    fab:menu_labels_paddingRight="8dp"
+    fab:menu_labels_paddingTop="4dp"
+    fab:menu_labels_position="left"
+    fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+    fab:menu_labels_showShadow="true"
+    fab:menu_labels_singleLine="false"
+    fab:menu_labels_textColor="#FFFFFF"
+    fab:menu_labels_textSize="14sp"
+    fab:menu_openDirection="up"
+    fab:menu_shadowColor="#66000000"
+    fab:menu_shadowRadius="4dp"
+    fab:menu_shadowXOffset="1dp"
+    fab:menu_shadowYOffset="3dp">
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/show_tagged_fab_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check_transparent_24dp"
+        fab:fab_label="Edit"
+        fab:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/show_tagged_fab_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete_white_24dp"
+        fab:fab_label="Delete"
+        fab:fab_size="mini" />
+</com.github.clans.fab.FloatingActionMenu>
+
+
+<TextView
+    android:id="@+id/show_tagged_title"
+    android:layout_width="366dp"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginStart="22dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="23dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/baby_blue_inputs"
+    android:fontFamily="@font/maitree"
+    android:textAlignment="center"
+    android:textAllCaps="false"
+    android:textSize="25sp"
+    android:textStyle="bold" />
+
+<ImageView
+    android:id="@+id/show_tagged_image"
+    android:layout_width="match_parent"
+    android:layout_height="215dp"
+    android:layout_marginTop="18dp"
+    android:scaleType="fitCenter"
+    android:layout_below="@+id/show_tagged_title"
+    android:src="@drawable/add_memory_image" />
+
+<TextView
+    android:id="@+id/show_tagged_description"
+    android:layout_width="404dp"
+    android:layout_height="331dp"
+    android:layout_below="@+id/show_tagged_image"
+    android:layout_marginLeft="7dp"
+    android:layout_marginTop="22dp"
+    android:layout_marginRight="7dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/baby_blue_inputs"
+    android:fontFamily="serif"
+    android:gravity="start"
+    android:inputType="textCapSentences|textMultiLine"
+    android:scrollbars="vertical"
+    android:textSize="18sp" />
+
+
+</RelativeLayout>

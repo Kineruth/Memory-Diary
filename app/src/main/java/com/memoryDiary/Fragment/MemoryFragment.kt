@@ -1,24 +1,19 @@
 package com.memoryDiary.Fragment
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.helper.android.list.autoScrollToStart
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.searchbox.connectView
@@ -36,7 +31,6 @@ import com.google.firebase.database.ValueEventListener
 import com.memoryDiary.Activity.Memory.AddMemoryActivity
 //import com.memoryDiary.Activity.Start.LoginActivity
 import com.memoryDiary.Adapter.DiaryAdapter
-import com.memoryDiary.Adapter.MemoryAdapter
 import com.memoryDiary.Entity.Diary
 import com.memoryDiary.Entity.Memory
 import com.memoryDiary.Holder.DiaryDataHolder
@@ -45,10 +39,6 @@ import com.memoryDiary.Holder.UserDataHolder
 import com.memoryDiary.InstantSearch.MyViewModel
 import com.memoryDiary.R
 import kotlinx.android.synthetic.main.fragment_memory.*
-import kotlinx.serialization.json.content
-import java.util.function.Predicate
-
-import kotlin.jvm.internal.Intrinsics
 
 class MemoryFragment : Fragment() {
 
@@ -85,7 +75,7 @@ class MemoryFragment : Fragment() {
         connection += viewModel.searchBox.connectView(searchBoxView)
         connection += viewModel.stats.connectView(statsView, StatsPresenterImpl())
 
-        memory_recyclerview.let {
+        memory_recyclerView.let {
             it.itemAnimator = null
             it.adapter = viewModel.adapterMemory
             it.layoutManager = GridLayoutManager(activity, 4)
@@ -103,7 +93,7 @@ class MemoryFragment : Fragment() {
      * Initialization the connection of the fields in xml file to their activities.
      */
     private fun initFields() {
-        this.memoryRecyclerView = this.mView!!.findViewById(R.id.memory_recyclerview)
+        this.memoryRecyclerView = this.mView!!.findViewById(R.id.memory_recyclerView)
         // sets layout manager for RecyclerView, to be able to draw the layout properly.
 //        val manager = LinearLayoutManager(this.activity)
 //        this.memoryRecyclerView!!.layoutManager = manager

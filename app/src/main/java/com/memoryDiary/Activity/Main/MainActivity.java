@@ -20,12 +20,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.memoryDiary.Entity.User;
 import com.memoryDiary.Fragment.CameraFragment;
 import com.memoryDiary.Fragment.MemoryFragment;
+import com.memoryDiary.Fragment.TagsFragment;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
-    private Toolbar mToolbar;
+//    private Toolbar mToolbar;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
 
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 2;
+        private static int NUM_ITEMS = 3;
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             switch(position){
                 case 0: return CameraFragment.newInstance();
                 case 1: return MemoryFragment.Companion.newInstance();
+                case 2: return TagsFragment.newInstance();
                 default: return null;
             }
         }
@@ -144,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             switch(position){
                 case 0: return "Camera";
                 case 1: return "Diary";
+                case 2: return "Tags";
                 default: return null;
             }
         }

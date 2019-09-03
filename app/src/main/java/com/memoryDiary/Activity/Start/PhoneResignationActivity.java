@@ -20,7 +20,10 @@ import com.mobsandgeeks.saripaar.annotation.Pattern;
 
 import java.util.List;
 
-
+/**
+ * Got code for FireBase phone auth from here
+ * https://www.simplifiedcoding.net/firebase-phone-authentication-android-tutorial/
+ */
 public class PhoneResignationActivity extends AppCompatActivity implements Validator.ValidationListener {
     @NotEmpty
     private EditText edUserName;
@@ -78,9 +81,7 @@ public class PhoneResignationActivity extends AppCompatActivity implements Valid
         this.validator.validate();
         if(this.valIsDone){
             this.phoneNumber = this.edPhoneNumber.getText().toString().trim();
-//            this.phoneNumber = this.edPhoneNumber.getText().toString().trim().substring(1,10);
             this.userName = this.edUserName.getText().toString();
-//            if(fbAuth.getCurrentUser() != null)
             verifyCodeActivity();
         }
         else{
@@ -120,7 +121,7 @@ public class PhoneResignationActivity extends AppCompatActivity implements Valid
     private void verifyCodeActivity() {
         Intent intent = new Intent(this,VerifyCodeActivity.class);
         Bundle extras = new Bundle();
-        extras.putString("edUserName",this.userName);
+        extras.putString("userName",this.userName);
         extras.putString("phoneNumber",this.phoneNumber);
         intent.putExtras(extras);
         finish();

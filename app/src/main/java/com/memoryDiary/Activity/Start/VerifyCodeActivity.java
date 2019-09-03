@@ -53,7 +53,7 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
         setContentView(R.layout.activity_verify_code);
         //get parameters from PhoneResignationActivity
         Bundle extras = getIntent().getExtras();
-        this.userName = extras.getString("edUserName");
+        this.userName = extras.getString("userName");
         this.phoneNumber = extras.getString("phoneNumber");
         sendVerificationCode();
 
@@ -144,7 +144,7 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //verification successful, save user & start main activity
-                            FirebaseUser fbUser = task.getResult().getUser();
+                            final FirebaseUser fbUser = task.getResult().getUser();
                             final User user = new User(userName, fbUser.getUid(), "+972"+phoneNumber);
                             fbData.child("Users")
                                     .child(fbUser.getUid())
@@ -177,7 +177,6 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
         this.validator.validate();
         if(valIsDone){
             String code = this.userCode.getText().toString().trim();
-            //need to verify CORRECT code
             verifyVerificationCode(code);
         }
 
