@@ -34,7 +34,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.memoryDiary.Activity.Memory.AddMemoryActivity
-import com.memoryDiary.Activity.Start.LoginActivity
+//import com.memoryDiary.Activity.Start.LoginActivity
 import com.memoryDiary.Adapter.DiaryAdapter
 import com.memoryDiary.Adapter.MemoryAdapter
 import com.memoryDiary.Entity.Diary
@@ -202,11 +202,11 @@ class MemoryFragment : Fragment() {
      * An intent - basically a message to say you did or want something to happen.
      */
     private fun logoutActivity() {
-        clearDataHolderes()
-        this.mAuth!!.signOut()
-        val intent = Intent(this.activity, LoginActivity::class.java)
-        startActivity(intent)
-        activity!!.finish()
+//        clearDataHolderes()
+//        this.mAuth!!.signOut()
+//        val intent = Intent(this.activity, LoginActivity::class.java)
+//        startActivity(intent)
+//        activity!!.finish()
     }
 
     private fun searchActivity() {

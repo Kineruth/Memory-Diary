@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lavender_blush">
+
+
+    <TextView
+        android:id="@+id/tvAppname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginRight="17dp"
+        android:fontFamily="@font/aclonica"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/maroon"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/aclonica" />
+
+    <TextView
+        android:id="@+id/tvEnterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAppname"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginRight="17dp"
+        android:fontFamily="@font/aladin"
+        android:text="User Name"
+        android:textAlignment="center"
+        android:textColor="@color/dim_gray"
+        android:textSize="28dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEnterName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="66dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/maroon_inputs"
+        android:fontFamily="@font/aladin"
+        android:hint="Enter your name"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/tvEnterNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginRight="17dp"
+        android:fontFamily="@font/aladin"
+        android:text="May I Ask Your Number?"
+        android:textAlignment="center"
+        android:textColor="@color/dim_gray"
+        android:textSize="28dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEnterNum"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="66dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/maroon_inputs"
+        android:fontFamily="@font/aladin"
+        android:hint="Exp:  050 123 4567"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/tvVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phoneNumber"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="17dp"
+        android:fontFamily="@font/aladin"
+        android:text="we'll send you a code to \nverify your number.."
+        android:textAlignment="center"
+        android:textColor="@color/dim_gray"
+        android:textSize="24dp"
+        android:textStyle="normal" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/phone_resig_fabDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_check_transparent_24dp"
+        android:layout_margin="16dp"/>
+
+
+</RelativeLayout>
