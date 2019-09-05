@@ -30,8 +30,8 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Start.LoginActivity" />
-        <activity android:name=".Activity.Start.RegistrationActivity" />
+        <activity android:name=".Activity.Start.PhoneResignationActivity" />
+        <activity android:name=".Activity.Start.VerifyCodeActivity" />
         <activity android:name=".Activity.Start.ResetPasswordActivity" />
         <activity android:name=".Activity.Start.ShowCaptureActivity" />
         <activity android:name=".Activity.Memory.AddMemoryActivity" />

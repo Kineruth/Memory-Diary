@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/lavender_blush"
     tools:context=".Activity.Start.WelcomeActivity">
 
     <TextView
@@ -12,27 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tapAnywhereToConBTN"
-        android:layout_marginTop="44dp"
-        android:fontFamily="@font/maitree"
+        android:layout_marginTop="29dp"
+        android:fontFamily="@font/waiting_for_the_sunrise"
         android:gravity="center_horizontal"
         android:text="There are moments\nthat must be cherished\nand not forgotten.."
         android:textAlignment="center"
         android:textColor="@color/lightBlue"
-        android:textSize="22sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/welcomeIV"
         android:layout_width="353dp"
         android:layout_height="378dp"
-        android:layout_centerInParent="true"
+        android:layout_alignEnd="@+id/tapAnywhereToConBTN"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="29dp"
         android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
         android:src="@drawable/welcome_image" />
 
     <TextView
         android:id="@+id/tapAnywhereToConBTN"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-2dp"
+        android:fontFamily="@font/great_vibes" />
 
     <TextView
         android:id="@+id/tapAnywhereToConTV"
@@ -41,15 +47,15 @@
         android:layout_below="@+id/welcomeIV"
         android:layout_alignBottom="@+id/tapAnywhereToConBTN"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
-        android:layout_marginBottom="65dp"
-        android:fontFamily="@font/maitree"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="82dp"
+        android:fontFamily="@font/waiting_for_the_sunrise"
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="Tap anywhere to continue"
         android:textAlignment="center"
         android:textColor="#007d8c"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 </RelativeLayout>

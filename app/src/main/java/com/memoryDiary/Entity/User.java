@@ -6,7 +6,7 @@ package com.memoryDiary.Entity;
  */
 public class User {
 
-    private String name, uid;
+    private String name, uid, phoneNumber;
 
     /**
      * Default Constructor
@@ -18,9 +18,10 @@ public class User {
      * @param fullName this user's full name.
      * @param uid this user ID.
      */
-    public User(String fullName ,String uid) {
+    public User(String fullName ,String uid, String phone) {
         this.name = fullName;
         this.uid = uid;
+        this.phoneNumber = phone;
     }
 
     /**
@@ -32,8 +33,16 @@ public class User {
         this.uid = user.uid;
     }
 
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -42,7 +51,7 @@ public class User {
 
 
     public String getUid() {
-        return uid;
+        return this.uid;
     }
 
     public void setUid(String uid) {
@@ -62,6 +71,7 @@ public class User {
         return "User{" +
                 ", name='" + this.name + '\'' +
                 ", uid='" + this.uid + '\'' +
+                ", phone='" + this.phoneNumber + '\'' +
                 '}';
     }
 }

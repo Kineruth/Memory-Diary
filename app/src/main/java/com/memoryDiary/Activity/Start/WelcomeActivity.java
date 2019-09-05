@@ -49,10 +49,11 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     /**
-     * When the button 'Agree' was clicked.
+     * When the baby_blue_button 'Agree' was clicked.
      */
     private void clickOnConBTN() {
-        Intent intent = new Intent(this, LoginActivity.class);
+//        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, PhoneResignationActivity.class);
         startActivity(intent);
         finish();
     }
