@@ -25,7 +25,7 @@ class MemoryAdapter : PagedListAdapter<Memory, DiaryAdapter.MemoryViewHolder>(Me
     }
 
     override fun onBindViewHolder(holder: DiaryAdapter.MemoryViewHolder, position: Int) {
-        val memory = getItem(position).
+        val memory = getItem(position)
         if(!memory!!.userId.equals(UserDataHolder.getUserDataHolder().user.uid))
             return
         holder.txv_memory_title.setText(memory!!.getMemoryTitle())
