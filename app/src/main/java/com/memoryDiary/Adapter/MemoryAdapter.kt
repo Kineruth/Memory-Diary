@@ -26,11 +26,11 @@ class MemoryAdapter : PagedListAdapter<Memory, DiaryAdapter.MemoryViewHolder>(Me
 
     override fun onBindViewHolder(holder: DiaryAdapter.MemoryViewHolder, position: Int) {
         val memory = getItem(position)
-        if(!memory!!.userId.equals(UserDataHolder.getUserDataHolder().user.uid))
-            return
+//        if(!memory!!.userId.equals(UserDataHolder.getUserDataHolder().user.uid))
+//            return
         holder.txv_memory_title.setText(memory!!.getMemoryTitle())
-        if (!memory.getImagePath().isEmpty())
-            Picasso.get().load(memory.getImagePath()).into(holder.img_memory_thumbnail)
+        if (memory.imagePath.isNotEmpty())
+            Picasso.get().load(memory.imagePath).into(holder.img_memory_thumbnail)
         else
             Picasso.get().load(R.drawable.forgot_photo).into(holder.img_memory_thumbnail)
         holder.itemView.setOnClickListener(View.OnClickListener {
@@ -39,8 +39,9 @@ class MemoryAdapter : PagedListAdapter<Memory, DiaryAdapter.MemoryViewHolder>(Me
             context!!.startActivity(intent)
         })
 
-        if (memory != null) holder.bind(memory)
+        //if (memory != null) holder.bind(memory)
     }
+
 
     companion object : DiffUtil.ItemCallback<Memory>() {
 
