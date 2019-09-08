@@ -58,6 +58,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     private StorageReference memoImageRef;
     private String key;
     private Uri imageUri = null;
+    final ArrayList<String> imageLabels = new ArrayList<>();
     private Validator validator;
     private static boolean valIsDone;
     private FloatingActionButton fabDone;
@@ -150,12 +151,6 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
         if(requestCode == Define.ALBUM_REQUEST_CODE && resultCode == RESULT_OK && data != null){
             this.imageUri = (Uri)data.getParcelableArrayListExtra(Define.INTENT_PATH).get(0);
             Picasso.get().load(this.imageUri.toString()).into(this.memoImageView);
-        }
-    }
-
-    private void clickOnDone() {
-        this.validator.validate();
-        if(this.valIsDone && this.imageUri != null){
             FirebaseVisionImage image = null;
             try {
                 image = FirebaseVisionImage.fromFilePath(this, imageUri);
@@ -168,7 +163,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                             .build();
             FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
                     .getCloudImageLabeler(options);
-            final ArrayList<String> imageLabels = new ArrayList<>();
+
             labeler.processImage(image)
                     .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                         @Override
@@ -186,6 +181,13 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
                             // ...
                         }
                     });
+        }
+    }
+
+    private void clickOnDone() {
+        this.validator.validate();
+        if(this.valIsDone && this.imageUri != null){
+
             final Memory memory = new Memory(UserDataHolder.getUserDataHolder().getUser().getUid(),
                     key,
                     this.titleText.getText().toString(),
