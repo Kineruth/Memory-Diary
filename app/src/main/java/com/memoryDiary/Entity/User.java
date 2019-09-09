@@ -65,6 +65,7 @@ public class User {
     public void setAll(User user){
         this.name = user.name;
         this.uid = user.uid;
+        this.phoneNumber = user.phoneNumber;
     }
     @Override
     public String toString() {

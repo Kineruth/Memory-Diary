@@ -3,7 +3,6 @@ package com.memoryDiary.Fragment
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -41,12 +40,12 @@ import com.memoryDiary.R
 import kotlinx.android.synthetic.main.fragment_memory.*
 
 class MemoryFragment : Fragment() {
-
     private var mView: View? = null
     private var fabMenu: FloatingActionMenu? = null
     private var fabSearch: FloatingActionButton? = null
     private var fabAdd: FloatingActionButton? = null
-    private var fabLogout: FloatingActionButton? = null
+    private var fabSettings: FloatingActionButton? = null
+//    private var fabLogout: FloatingActionButton? = null
     private var memoryRecyclerView: RecyclerView? = null
     private var memories: Diary = Diary()
     private var diaryAdapter: DiaryAdapter? = null
@@ -105,32 +104,38 @@ class MemoryFragment : Fragment() {
         this.fabMenu = this.mView!!.findViewById(R.id.add_memory_fab_menu)
         this.fabSearch = this.mView!!.findViewById(R.id.add_memory_fab_search)
         this.fabAdd = this.mView!!.findViewById(R.id.add_memory_fab_add)
-        this.fabLogout = this.mView!!.findViewById(R.id.add_memory_fab_logout)
+        this.fabSettings = this.mView!!.findViewById(R.id.add_memory_fab_settings)
+//        this.fabLogout = this.mView!!.findViewById(R.id.add_memory_fab_logout)
 
         this.fabMenu!!.bringToFront()
         //color when not pressed
         this.fabAdd!!.colorNormal = resources.getColor(R.color.babyBlue)
         this.fabSearch!!.colorNormal = resources.getColor(R.color.babyBlue)
-        this.fabLogout!!.colorNormal = resources.getColor(R.color.babyBlue)
+        this.fabSettings!!.colorNormal = resources.getColor(R.color.babyBlue)
+//        this.fabLogout!!.colorNormal = resources.getColor(R.color.babyBlue)
+
         //color when pressed
-        this.fabAdd!!.colorPressed = resources.getColor(R.color.red)
-        this.fabSearch!!.colorPressed = resources.getColor(R.color.red)
-        this.fabLogout!!.colorPressed = resources.getColor(R.color.red)
+        this.fabAdd!!.colorPressed = resources.getColor(R.color.maroon)
+        this.fabSearch!!.colorPressed = resources.getColor(R.color.maroon)
+        this.fabSettings!!.colorPressed = resources.getColor(R.color.maroon)
+//        this.fabLogout!!.colorPressed = resources.getColor(R.color.maroon)
 
         this.fabSearch!!.setOnClickListener { searchActivity() }
 
         this.fabAdd!!.setOnClickListener { addMemoryActivity() }
 
-        this.fabLogout!!.setOnClickListener {
-            AlertDialog.Builder(activity!!)
-                    .setTitle("Logout")
-                    .setMessage("Sure you want to logout?")
-                    .setPositiveButton("Yes") { dialog, which -> logoutActivity() }
-                    .setNegativeButton("No") { dialog, which ->
-                        // user doesn't want to logout
-                    }
-                    .show()
-        }
+        this.fabAdd!!.setOnClickListener { settingsActivity() }
+
+//        this.fabLogout!!.setOnClickListener {
+//            AlertDialog.Builder(activity!!)
+//                    .setTitle("Logout")
+//                    .setMessage("Sure you want to logout?")
+//                    .setPositiveButton("Yes") { dialog, which -> logoutActivity() }
+//                    .setNegativeButton("No") { dialog, which ->
+//                        // user doesn't want to logout
+//                    }
+//                    .show()
+//        }
     }
 
     private fun initFireBase() {
@@ -179,31 +184,33 @@ class MemoryFragment : Fragment() {
         startActivity(intent)
     }
 
-    //    /**
-    //     * Connects to the settings activity and starts it.
-    //     */
-    //    private void SettingsActivity() {
-    //        Intent intent = new Intent(this.getActivity(), SettingsActivity.class);
-    //        startActivity(intent);
-    //    }
+        /**
+         * Connects to the settings activity and starts it.
+         */
+        private fun settingsActivity() {
+            Toast.makeText(activity, "Settings", Toast.LENGTH_SHORT).show()
+//            val intent = Intent(this.activity, SettingsActivity::class.java)
+//            startActivity(intent)
+        }
 
     /**
      * Connects to login activity and starts it.
      * An intent - basically a message to say you did or want something to happen.
      */
-    private fun logoutActivity() {
+//    private fun logoutActivity() {
 //        clearDataHolderes()
 //        this.mAuth!!.signOut()
 //        val intent = Intent(this.activity, LoginActivity::class.java)
 //        startActivity(intent)
 //        activity!!.finish()
-    }
+//    }
 
     private fun searchActivity() {
         Toast.makeText(activity, "search", Toast.LENGTH_SHORT).show()
 
     }
 
+    // for logout
     private fun clearDataHolderes() {
         UserDataHolder.getUserDataHolder().clearUser()
         DiaryDataHolder.getDiaryDataHolder().clearDiary()
@@ -216,8 +223,6 @@ class MemoryFragment : Fragment() {
     }
 
     companion object {
-
-
         fun newInstance(): MemoryFragment {
             return MemoryFragment()
         }

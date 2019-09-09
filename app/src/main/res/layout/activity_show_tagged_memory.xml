@@ -21,7 +21,7 @@
     fab:menu_backgroundColor="@android:color/transparent"
     fab:menu_buttonSpacing="0dp"
     fab:menu_colorNormal="@color/babyBlue"
-    fab:menu_colorPressed="@color/red"
+    fab:menu_colorPressed="@color/maroon"
     fab:menu_colorRipple="#99FFFFFF"
     fab:menu_fab_size="normal"
     fab:menu_icon="@drawable/ic_more_vert_white_24dp"

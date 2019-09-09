@@ -122,15 +122,23 @@
                 app:fab_label="Search"
                 app:fab_size="mini" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/add_memory_fab_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_logout_new_white_24dp"
-                app:fab_label="Logout"
-                app:fab_size="mini" />
-        </com.github.clans.fab.FloatingActionMenu>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/add_memory_fab_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings_white_24dp"
+            app:fab_label="Settings"
+            app:fab_size="mini" />
 
+            <!-- <com.github.clans.fab.FloatingActionButton
+               android:id="@+id/add_memory_fab_logout"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_logout_new_white_24dp"
+               app:fab_label="Logout"
+               app:fab_size="mini" />
+               -->
+       </com.github.clans.fab.FloatingActionMenu> //>
 
-    </RelativeLayout>
+   </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
