@@ -47,7 +47,7 @@ class MemoryFragment : Fragment() {
     private var fabSettings: FloatingActionButton? = null
 //    private var fabLogout: FloatingActionButton? = null
     private var memoryRecyclerView: RecyclerView? = null
-    private var memories: Diary = Diary()
+    private var memories: Diary? = null
     private var diaryAdapter: DiaryAdapter? = null
     private var mAuth: FirebaseAuth? = null
     private var mData: DatabaseReference? = null
@@ -69,7 +69,15 @@ class MemoryFragment : Fragment() {
 
         //val diaryAdapter = DiaryAdapter(this, memories)
 
-        viewModel!!.memories.observe(this, Observer { hits -> viewModel.adapterMemory.submitList(hits) })
+        viewModel!!.memories.observe(this, Observer { hits ->
+            run {
+                viewModel.adapterMemory.submitList(hits)
+                memories!!.clearMemories()
+                for (mem in hits){
+                    memories!!.addMemory(mem)
+                }
+            }
+        })
 
         connection += viewModel.searchBox.connectView(searchBoxView)
         connection += viewModel.stats.connectView(statsView, StatsPresenterImpl())
@@ -157,10 +165,10 @@ class MemoryFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.hasChildren())
                     return
-                memories.clearMemories()
+                memories!!.clearMemories()
                 for (data in dataSnapshot.children) {
                     val memo = data.getValue(Memory::class.java)
-                    memories.addMemory(memo)
+                    memories!!.addMemory(memo)
                 }
                 diaryAdapter!!.notifyDataSetChanged()
             }

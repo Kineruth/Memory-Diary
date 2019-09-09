@@ -2,6 +2,7 @@ package com.memoryDiary.Activity.Start;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -130,11 +131,17 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
     }
 
     private void verifyVerificationCode(String code) {
-        //creating the credential
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+        try {
+            //creating the credential
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
 
-        //signing the user
-        signInWithPhoneAuthCredential(credential);
+            //signing the user
+            signInWithPhoneAuthCredential(credential);
+        }catch (Exception e){
+            Toast toast = Toast.makeText(this, "Verification Code is wrong", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+        }
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
