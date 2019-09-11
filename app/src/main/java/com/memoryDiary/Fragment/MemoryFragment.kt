@@ -25,14 +25,11 @@ import com.algolia.instantsearch.helper.android.searchbox.connectView
 import com.algolia.instantsearch.helper.android.stats.StatsTextView
 import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
 import com.algolia.instantsearch.helper.stats.connectView
+import com.algolia.search.model.Attribute
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.memoryDiary.Activity.Memory.AddMemoryActivity
 //import com.memoryDiary.Activity.Start.LoginActivity
 import com.memoryDiary.Adapter.DiaryAdapter
@@ -78,8 +75,6 @@ class MemoryFragment : Fragment() {
         val statsView = StatsTextView(stats)
         val viewModel = ViewModelProviders.of(requireActivity())[MyViewModel::class.java]
 
-        //val diaryAdapter = DiaryAdapter(this, memories)
-
         viewModel!!.memories.observe(this, Observer { hits ->
             run {
                 viewModel.adapterMemory.submitList(hits)
@@ -99,7 +94,6 @@ class MemoryFragment : Fragment() {
             it.layoutManager = GridLayoutManager(activity, 4)
             it.autoScrollToStart(viewModel.adapterMemory)
         }
-        //filters.setOnClickListener { (requireActivity() as GettingStartedGuide).showFacetFragment() }
     }
 
     override fun onResume() {
