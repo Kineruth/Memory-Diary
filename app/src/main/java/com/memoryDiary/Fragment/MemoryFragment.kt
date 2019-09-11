@@ -2,6 +2,7 @@ package com.memoryDiary.Fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.NonNull
 
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.list.autoScrollToStart
@@ -69,7 +71,7 @@ class MemoryFragment : Fragment() {
 
         //val diaryAdapter = DiaryAdapter(this, memories)
 
-        viewModel!!.memories.observe(this, Observer { hits ->
+        viewModel.memories.observe(this, Observer { hits ->
             run {
                 viewModel.adapterMemory.submitList(hits)
                 memories!!.clearMemories()
@@ -132,7 +134,7 @@ class MemoryFragment : Fragment() {
 
         this.fabAdd!!.setOnClickListener { addMemoryActivity() }
 
-        this.fabAdd!!.setOnClickListener { settingsActivity() }
+        this.fabSettings!!.setOnClickListener { settingsActivity() }
 
 //        this.fabLogout!!.setOnClickListener {
 //            AlertDialog.Builder(activity!!)
@@ -155,6 +157,7 @@ class MemoryFragment : Fragment() {
      * Initializing a recycle view.
      */
     fun initRecyclerView() {
+        Log.d("Memo Fragment -- ", this.mAuth!!.currentUser!!.uid)
         this.mData!!.child("Diary").child(this.mAuth!!.currentUser!!.uid).addListenerForSingleValueEvent(object : ValueEventListener {
 
             /**
@@ -162,15 +165,19 @@ class MemoryFragment : Fragment() {
              * and again every time the data, including children, changes.
              * @param dataSnapshot the data.
              */
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (!dataSnapshot.hasChildren())
-                    return
-                memories!!.clearMemories()
-                for (data in dataSnapshot.children) {
-                    val memo = data.getValue(Memory::class.java)
-                    memories!!.addMemory(memo)
-                }
-                diaryAdapter!!.notifyDataSetChanged()
+            override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
+//                if (!dataSnapshot.hasChildren()){
+//                    memories!!.clearMemories()
+//                }
+//                else{
+                    memories!!.clearMemories()
+                    for (data in dataSnapshot.children) {
+                        val memo = data.getValue(Memory::class.java)
+                        memories!!.addMemory(memo)
+                    }
+                    diaryAdapter!!.notifyDataSetChanged()
+//                }
+
             }
 
             /**

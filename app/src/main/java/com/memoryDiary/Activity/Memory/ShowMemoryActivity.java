@@ -1,17 +1,14 @@
 package com.memoryDiary.Activity.Memory;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import com.github.clans.fab.FloatingActionButton;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -20,6 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +41,10 @@ import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 public class ShowMemoryActivity extends AppCompatActivity {
 
     private static final int RESULT_PICK_CONTACT =1;
@@ -46,7 +54,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
     private FloatingActionMenu fabMenu;
     private FloatingActionButton fabEdit, fabDelete, fabShare;
     private Memory memory;
-    private String memoryUid, imagePath, taggedNumber, taggedUserKey, taggedMemoryKey;
+    private String memoryUid, imagePath, taggedPhoneNumber, taggedUserUid, taggedMemoryUid, taggedUserName;
 
     private FirebaseAuth fbAuth;
     private DatabaseReference fbData;
@@ -120,8 +128,10 @@ public class ShowMemoryActivity extends AppCompatActivity {
         this.fbData = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * User wants to delete a memory
+     */
     private void deleteActivity(){
-
         new AlertDialog.Builder(this)
                 .setTitle("Delete Memory")
                 .setMessage("Sure you want to delete this memory? ")
@@ -154,7 +164,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("EditMemory", "Failed to delete image from firebase");
+                Log.d("ShowMemory", "Failed to delete image from firebase");
             }
         });
     }
@@ -172,6 +182,11 @@ public class ShowMemoryActivity extends AppCompatActivity {
         startActivityForResult (in, RESULT_PICK_CONTACT);
     }
 
+    /**
+     * After contact gets picked - gets his phone number & name
+     * Searches contact in fireBase.
+     * @param data
+     */
     private void contactPicked(Intent data) {
         Cursor cursor = null;
         try{
@@ -180,49 +195,161 @@ public class ShowMemoryActivity extends AppCompatActivity {
             cursor = getContentResolver().query(uri, null, null,null,null);
             cursor.moveToFirst();
             int phoneIndex = cursor.getColumnIndex (ContactsContract.CommonDataKinds.Phone.NUMBER);
-
+            int nameIndex = cursor.getColumnIndex (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             phoneNo = cursor.getString(phoneIndex);
+            this.taggedUserName = cursor.getString(nameIndex);
+
             if(phoneNo.length() == 10){ //need to replace with regex?
-                this.taggedNumber = "+972" + phoneNo.substring(1,10);
+                this.taggedPhoneNumber = "+972" + phoneNo.substring(1,10);
             }
             else{
-                this.taggedNumber = phoneNo;
+                this.taggedPhoneNumber = phoneNo;
             }
-            searchUserByPhone();
+            //need to alert him if he is sure he wants to send this to the user
+            // show phone number & name
+            //press ok or cancel
+            new AlertDialog.Builder(this)
+                    .setTitle("Share Memory")
+                    .setMessage("Share memory with " +  this.taggedUserName + " ?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            searchUserByPhone();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        // user doesn't want to delete
+                        public void onClick(DialogInterface dialog, int which) { }
+                    })
+                    .show();
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Searches contact in fireBase:
+     * if exists- adds the memory to his Tags.
+     * if not- doesn't do anything (maybe gives alert?).
+     * Sends copy of the memory to the chosen contact - adds it to his Tag Fragment.
+     * Changes the duplicated memory uid to a new one.
+     */
     private void searchUserByPhone(){
-        this.fbData.child("Users");
-        this.fbData.orderByChild("phoneNumber")
-                .equalTo(this.taggedNumber)
+
+
+        this.fbData.child("Users")
+                .orderByChild("phoneNumber")
+                .equalTo(this.taggedPhoneNumber)
                 .addListenerForSingleValueEvent(new ValueEventListener(){
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot child: dataSnapshot.getChildren()){
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
                             String key = child.getKey();
-                            taggedUserKey = key;
+                            taggedUserUid = key;
                             Log.e("search Key: ", key);
                         }
-                    }
+
+                        taggedMemoryUid = fbData.child("Tags").child(taggedUserUid).push().getKey();
+                        final Memory memoCopy = new Memory(taggedUserUid,
+                                taggedMemoryUid,
+                                memory.getMemoryTitle(),
+                                memory.getDescription(),
+                                Calendar.getInstance().getTimeInMillis(),
+                                "", memory.getImageLabels());
+
+                        final StorageReference filePathRef = FirebaseStorage.getInstance().getReferenceFromUrl(imagePath);
+                        final StorageReference filePath = FirebaseStorage.getInstance().getReference().child("Diary").child(taggedUserUid);
+
+                         filePathRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String fileName = String.valueOf(memoCopy.getCreationTime());
+                                DownloadManager downloadManager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                                // uri?
+                                DownloadManager.Request request = new DownloadManager.Request(uri);
+                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                request.setDestinationInExternalFilesDir(getApplicationContext(),DIRECTORY_DOWNLOADS, fileName +".jpg");
+                                downloadManager.enqueue(request);
+                                Log.e("DOWNLOAD : ", "Succeeded downloading image");
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                                Log.e("DOWNLOAD : ", "Failed to download image");
+                            }
+                        });
+
+                        /*
+                        if(isExternalStorageWritable()){
+                            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//                            final File rootPath = new File(Environment.getExternalStorageDirectory(), "MemoryDiary_Downloads");
+                            if (!path.exists()) {
+                                path.mkdirs();
+                            }
+                            final File file = new File(path, memoCopy.getCreationTime()+".jpg");
+                            filePathRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    // Local temp file has been created
+                                    Log.e("DOWNLOAD : ", "local tem file created - " + file.getPath());
+
+                                    Uri imgUri =
+                                    filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    Log.e("GOT URI : ", "onSuccess");
+                                                    memoCopy.setImagePath(uri.toString());
+                                                    fbData.child("Tags").child(taggedUserUid)
+                                                            .child(taggedMemoryUid).setValue(memoCopy).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.e("ADD IMAGE REFERENCE: ", "onSuccess");
+                                                            finish();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                    Log.e("DOWNLOAD : ", "Failed to download image");
+                                }
+                            });
+                            } */
+                        }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("search User : ", "Failed to get user from firebase");
+                        Log.d("Search_User : ", "Failed to get user from fireBase");
                     }
                 });
-        sendMemory();
-
     }
 
-    private void sendMemory(){
-        this.taggedMemoryKey = fbData.child("Tags").child(this.taggedUserKey).push().getKey();
-        final Memory memoCopy = new Memory(this.memory);
-        memoCopy.setMemoryId(this.taggedMemoryKey);
 
-        this.fbData.child("Tags").child(this.taggedUserKey)
-                .child(this.taggedMemoryKey).setValue(memoCopy).addOnSuccessListener(new OnSuccessListener<Void>() {
+    /**
+     * Sends copy of the memory to the chosen contact - adds it to his Tag Fragment.
+     * Changes the duplicated memory uid to a new one.
+     */
+    private void sendMemory(){
+        // Can't pass null for argument 'pathString' in child()
+        this.taggedMemoryUid = this.fbData.child("Tags").child(this.taggedUserUid).push().getKey();
+        Log.d("Send_Memory : ", this.taggedMemoryUid);
+        final Memory memoCopy = new Memory(this.memory);
+        memoCopy.setMemoryId(this.taggedMemoryUid);
+
+        this.fbData.child("Tags").child(this.taggedUserUid)
+                .child(this.taggedMemoryUid).setValue(memoCopy).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 finish();
@@ -230,6 +357,13 @@ public class ShowMemoryActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets called when the user choose a contact from his phone.
+     * Only one contact can be picked.
+     * @param requestCode
+     * @param resultCode
+     * @param data the chosen contact's data.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(resultCode == RESULT_OK){
@@ -251,7 +385,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
     private void editMemoryActivity() {
         Intent intent = new Intent(this, EditMemoryActivity.class);
         startActivity(intent);
-        Toast.makeText(getApplicationContext(), "edit", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "edit", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -259,5 +393,15 @@ public class ShowMemoryActivity extends AppCompatActivity {
         super.onRestart();
         initFields();
     }
+
+    /* Checks if external storage is available for read and write */
+    private boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
 }
 

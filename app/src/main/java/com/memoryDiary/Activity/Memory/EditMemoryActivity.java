@@ -166,6 +166,7 @@ public class EditMemoryActivity extends AppCompatActivity implements Validator.V
                     this.descriptionText.getText().toString(),
                     Calendar.getInstance().getTimeInMillis(),
                     "",
+//                    this.imageUri.toString(),
                     null);
             this.memory.setAll(memo); //sets the new edited memory
 

@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -105,7 +106,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
 
     private void initFireBase(){
         this.mData = FirebaseDatabase.getInstance().getReference();
-        this.key = mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).push().getKey();
+        this.key = this.mData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid()).push().getKey();
         this.memoImageRef = FirebaseStorage.getInstance().getReference().child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid());
     }
 
@@ -150,6 +151,7 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
         // succeeded in opening album & choosing a photo
         if(requestCode == Define.ALBUM_REQUEST_CODE && resultCode == RESULT_OK && data != null){
             this.imageUri = (Uri)data.getParcelableArrayListExtra(Define.INTENT_PATH).get(0);
+            Log.d("Adding Image",this.imageUri.toString());
             Picasso.get().load(this.imageUri.toString()).into(this.memoImageView);
             FirebaseVisionImage image = null;
             try {
@@ -187,13 +189,14 @@ public class AddMemoryActivity extends AppCompatActivity implements Validator.Va
     private void clickOnDone() {
         this.validator.validate();
         if(this.valIsDone && this.imageUri != null){
-
             final Memory memory = new Memory(UserDataHolder.getUserDataHolder().getUser().getUid(),
                     key,
                     this.titleText.getText().toString(),
                     this.descriptionText.getText().toString(),
                     Calendar.getInstance().getTimeInMillis(),
-                    "", imageLabels);
+                    "",
+                    //this.imageUri.toString(),
+                    imageLabels);
             final StorageReference filePath = this.memoImageRef.child(this.key + ".jpg");
             filePath.putFile(this.imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

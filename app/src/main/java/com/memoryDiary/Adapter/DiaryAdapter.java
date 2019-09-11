@@ -22,6 +22,11 @@ public class DiaryAdapter extends RecyclerView.Adapter <DiaryAdapter.MemoryViewH
 private Context mContext;
 private Diary memories;
 
+//    public DiaryAdapter(){
+//        this.mContext = null;
+//        this.memories = new Diary();
+//    }
+
     public DiaryAdapter(Context mContext, Diary mData) {
         this.mContext = mContext;
         this.memories = mData;

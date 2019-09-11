@@ -1,6 +1,8 @@
 package com.memoryDiary.Entity;
 
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Memory {
     private String description;
     private long creationTime;
     private String imagePath;
+//    private String imageUri;
     private List<String> imageLabels = null;
 
     public Memory() {
@@ -27,6 +30,7 @@ public class Memory {
         this.description = description;
         this.creationTime = creationTime;
         this.imagePath = image;
+//        this.imageUri = imageUri;
         this.imageLabels= imageLabels;
     }
 
@@ -37,8 +41,17 @@ public class Memory {
         this.description = memory.description;
         this.creationTime = memory.creationTime;
         this.imagePath = memory.imagePath;
+//        this.imageUri = memory.imageUri;
         this.imageLabels= memory.imageLabels;
     }
+
+//    public String getImageUri() {
+//        return this.imageUri;
+//    }
+
+//    public void setImageUri(String imageUri) {
+//        this.imageUri = imageUri;
+//    }
 
     public String getUserId() {
         return this.userId;

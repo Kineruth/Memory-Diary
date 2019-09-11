@@ -1,5 +1,6 @@
 package com.memoryDiary.InstantSearch
 
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
@@ -33,6 +34,7 @@ class MyViewModel : ViewModel() {
     val index = client.initIndex(IndexName("memory_diary"))
     val searcher = SearcherSingleIndex(index)
     val adapterMemory = MemoryAdapter()
+//    val diaryAdapter = DiaryAdapter()
     val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { hit ->
         Memory(
                 hit.json.getPrimitive("userId").content,
@@ -41,6 +43,7 @@ class MyViewModel : ViewModel() {
                 hit.json.getPrimitive("description").content,
                 hit.json.getPrimitive("creationTime").content.toLong(),
                 hit.json.getPrimitive("imagePath").content,
+//                hit.json.getPrimitive("imageUri").content,
                 hit.json.getArray("imageLabels").content.map { jsnelm -> jsnelm.content }
         )
     }
