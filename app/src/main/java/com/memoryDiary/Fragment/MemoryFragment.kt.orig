@@ -66,7 +66,13 @@ class MemoryFragment : Fragment() {
         val statsView = StatsTextView(stats)
         val viewModel = ViewModelProviders.of(requireActivity())[MyViewModel::class.java]
 
+<<<<<<< HEAD
+        //val diaryAdapter = DiaryAdapter(this, memories)
+
+        viewModel.memories.observe(this, Observer { hits ->
+=======
         viewModel!!.memories.observe(this, Observer { hits ->
+>>>>>>> b08792cb4e679bec788b87450eb2635ae145cad9
             run {
                 viewModel.adapterMemory.submitList(hits)
                 memories!!.clearMemories()
@@ -151,6 +157,7 @@ class MemoryFragment : Fragment() {
      * Initializing a recycle view.
      */
     fun initRecyclerView() {
+        Log.d("Memo Fragment -- ", this.mAuth!!.currentUser!!.uid)
         this.mData!!.child("Diary").child(this.mAuth!!.currentUser!!.uid).addListenerForSingleValueEvent(object : ValueEventListener {
 
             /**
@@ -159,17 +166,17 @@ class MemoryFragment : Fragment() {
              * @param dataSnapshot the data.
              */
             override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
-                if (!dataSnapshot.hasChildren()){
-                    memories!!.clearMemories()
-                }
-                else{
+//                if (!dataSnapshot.hasChildren()){
+//                    memories!!.clearMemories()
+//                }
+//                else{
                     memories!!.clearMemories()
                     for (data in dataSnapshot.children) {
                         val memo = data.getValue(Memory::class.java)
                         memories!!.addMemory(memo)
                     }
                     diaryAdapter!!.notifyDataSetChanged()
-                }
+//                }
 
             }
 

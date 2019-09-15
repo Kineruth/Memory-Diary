@@ -205,8 +205,11 @@ public class ShowMemoryActivity extends AppCompatActivity {
             if(phoneNo.length() == 10){ //need to replace with regex?
                 this.taggedPhoneNumber = "+972" + phoneNo.substring(1,10);
             }
-            else{
+            else if (phoneNo.length() == 13){
                 this.taggedPhoneNumber = phoneNo;
+            }
+            else{
+                Log.e("ShowMemoryActivity : ", "Uncorrect Phone Number_"+phoneNo);
             }
             //need to alert him if he is sure he wants to send this to the user
             // show phone number & name
@@ -237,8 +240,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
      * Changes the duplicated memory uid to a new one.
      */
     private void searchUserByPhone(){
-
-
+        Log.e("taggedUser Phone: ", taggedPhoneNumber);
         this.fbData.child("Users")
                 .orderByChild("phoneNumber")
                 .equalTo(this.taggedPhoneNumber)
@@ -351,26 +353,6 @@ public class ShowMemoryActivity extends AppCompatActivity {
                 });
     }
 
-
-    /**
-     * Sends copy of the memory to the chosen contact - adds it to his Tag Fragment.
-     * Changes the duplicated memory uid to a new one.
-     */
-    private void sendMemory(){
-        // Can't pass null for argument 'pathString' in child()
-        this.taggedMemoryUid = this.fbData.child("Tags").child(this.taggedUserUid).push().getKey();
-        Log.d("Send_Memory : ", this.taggedMemoryUid);
-        final Memory memoCopy = new Memory(this.memory);
-        memoCopy.setMemoryId(this.taggedMemoryUid);
-
-        this.fbData.child("Tags").child(this.taggedUserUid)
-                .child(this.taggedMemoryUid).setValue(memoCopy).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                finish();
-            }
-        });
-    }
 
     /**
      * Gets called when the user choose a contact from his phone.

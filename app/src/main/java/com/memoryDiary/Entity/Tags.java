@@ -43,7 +43,7 @@ public class Tags {
      * Gets all the contents of the diary
      * @return memories collection
      */
-    public ArrayList<Memory> getAllMemories(){
+    public ArrayList<Memory> getAllTags(){
         return this.memories;
     }
 

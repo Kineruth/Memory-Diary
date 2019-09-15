@@ -61,8 +61,8 @@ public class TagsFragment extends Fragment {
         this.tagsRecyclerView.setHasFixedSize(true);
         this.tagsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
         this.memories = new Tags();
-        this.tagsAdapter = new TagsAdapter(getActivity(), memories);
-        this.tagsRecyclerView.setAdapter(tagsAdapter);
+        this.tagsAdapter = new TagsAdapter(getActivity(), this.memories);
+        this.tagsRecyclerView.setAdapter(this.tagsAdapter);
     }
 
     /**

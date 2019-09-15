@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
 
     private void initUser() {
+        UserDataHolder.getUserDataHolder().getUser().setUid(mAuth.getUid());
         mData.child("Users").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -56,7 +56,8 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
         //get parameters from PhoneResignationActivity
         Bundle extras = getIntent().getExtras();
         this.userName = extras.getString("userName");
-        this.phoneNumber = extras.getString("phoneNumber");
+        String phoneNo = extras.getString("phoneNumber");
+        this.phoneNumber = "+972" + phoneNo.substring(1,10);
         sendVerificationCode();
 
         initFields();
@@ -123,8 +124,9 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
      * the method is sending verification code to user
      */
     private void sendVerificationCode(){
+
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+972" + this.phoneNumber,
+                this.phoneNumber,
                 60,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
@@ -153,7 +155,7 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
                         if (task.isSuccessful()) {
                             //verification successful, save user & start main activity
                             final FirebaseUser fbUser = task.getResult().getUser();
-                            final User user = new User(userName, fbUser.getUid(), "+972"+phoneNumber);
+                            final User user = new User(userName, fbUser.getUid(), phoneNumber);
                             UserDataHolder.getUserDataHolder().getUser().setAll(user);
                             fbData.child("Users")
                                     .child(fbUser.getUid())

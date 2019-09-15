@@ -122,9 +122,10 @@ public class ShowTaggedActivity extends AppCompatActivity {
      * Deletes memory from firebase database & from dataholder
      */
     private void deleteMemory(){
-        DatabaseReference memoDR = FirebaseDatabase.getInstance().getReference("Tags").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child(memoryUid);
+        DatabaseReference memoDR = FirebaseDatabase.getInstance().getReference("Tags").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child(this.memoryUid);
         memoDR.removeValue();
         MemoryDataHolder.getMemoryDataHolder().clearMemory();
+        //need to change that because it points to the sender - will give ERROR
         StorageReference memoImageRef = FirebaseStorage.getInstance().getReference().child("Tags").child(UserDataHolder.getUserDataHolder().getUser().getUid());
         memoImageRef.child(this.memoryUid + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -141,12 +142,22 @@ public class ShowTaggedActivity extends AppCompatActivity {
     }
 
     /**
-     * When clicked on the add FAB will open the add new memory activity.
+     * When clicked on the ok FAB will add memory to diary
+     * and will exit the activity.
      */
     private void okMemoryActivity() {
-//        Intent intent = new Intent(this, EditMemoryActivity.class);
-//        startActivity(intent);
-        Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_SHORT).show();
+        // add to Diary
+        this.fbData.child("Diary").child(UserDataHolder.getUserDataHolder().getUser().getUid())
+                .child(this.memoryUid).setValue(this.memory).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+            }
+        });
+        //removes from Tags
+        DatabaseReference memoDR = FirebaseDatabase.getInstance().getReference("Tags").child(UserDataHolder.getUserDataHolder().getUser().getUid()).child(this.memoryUid);
+        memoDR.removeValue();
+        Toast.makeText(getApplicationContext(), "Added to diary!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
