@@ -199,8 +199,12 @@ public class ShowMemoryActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int phoneIndex = cursor.getColumnIndex (ContactsContract.CommonDataKinds.Phone.NUMBER);
             int nameIndex = cursor.getColumnIndex (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-            phoneNo = cursor.getString(phoneIndex);
             this.taggedUserName = cursor.getString(nameIndex);
+            phoneNo = cursor.getString(phoneIndex);
+            phoneNo.replace("-", "");
+            phoneNo.replace(" ", "");
+            phoneNo.replace("(", "");
+            phoneNo.replace(")", "");
 
             if(phoneNo.length() == 10){ //need to replace with regex?
                 this.taggedPhoneNumber = "+972" + phoneNo.substring(1,10);
@@ -211,6 +215,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
             else{
                 Log.e("ShowMemoryActivity : ", "Uncorrect Phone Number_"+phoneNo);
             }
+
             //need to alert him if he is sure he wants to send this to the user
             // show phone number & name
             //press ok or cancel
@@ -240,7 +245,6 @@ public class ShowMemoryActivity extends AppCompatActivity {
      * Changes the duplicated memory uid to a new one.
      */
     private void searchUserByPhone(){
-        Log.e("taggedUser Phone: ", taggedPhoneNumber);
         this.fbData.child("Users")
                 .orderByChild("phoneNumber")
                 .equalTo(this.taggedPhoneNumber)
@@ -251,7 +255,6 @@ public class ShowMemoryActivity extends AppCompatActivity {
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             String key = child.getKey();
                             taggedUserUid = key;
-                            Log.e("search Key: ", key);
                         }
 
                         taggedMemoryUid = fbData.child("Tags").child(taggedUserUid).push().getKey();
@@ -269,7 +272,6 @@ public class ShowMemoryActivity extends AppCompatActivity {
                                 .child(taggedMemoryUid).setValue(memoCopy).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.e("ADD IMAGE REFERENCE: ", "onSuccess");
                                 finish();
                             }
                         });
