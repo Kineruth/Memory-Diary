@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.memoryDiary.Activity.Main.MainActivity;
 import com.memoryDiary.Entity.User;
+import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -153,6 +154,7 @@ public class VerifyCodeActivity extends AppCompatActivity implements Validator.V
                             //verification successful, save user & start main activity
                             final FirebaseUser fbUser = task.getResult().getUser();
                             final User user = new User(userName, fbUser.getUid(), "+972"+phoneNumber);
+                            UserDataHolder.getUserDataHolder().getUser().setAll(user);
                             fbData.child("Users")
                                     .child(fbUser.getUid())
                                     .setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {

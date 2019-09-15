@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -20,6 +22,8 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.search.Query
+import com.algolia.search.transport.RequestOptions
 import com.memoryDiary.Adapter.DiaryAdapter
 import com.memoryDiary.Adapter.MemoryAdapter
 import com.memoryDiary.Entity.Memory
@@ -32,9 +36,9 @@ import java.util.function.Predicate
 class MyViewModel : ViewModel() {
     val client = ClientSearch(ApplicationID("M3U4UXDFPP"), APIKey("b35f7c791eff3e9ab52d23679bce52c4"), LogLevel.ALL)
     val index = client.initIndex(IndexName("memory_diary"))
-    val searcher = SearcherSingleIndex(index)
+    val searcher = SearcherSingleIndex(index, Query(filters = "userId:"+UserDataHolder.getUserDataHolder().user.uid))
     val adapterMemory = MemoryAdapter()
-//    val diaryAdapter = DiaryAdapter()
+
     val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { hit ->
         Memory(
                 hit.json.getPrimitive("userId").content,
@@ -63,6 +67,7 @@ class MyViewModel : ViewModel() {
         connection += stats
         connection += filterState.connectPagedList(memories)
     }
+
 
     override fun onCleared() {
         super.onCleared()

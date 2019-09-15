@@ -33,14 +33,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.memoryDiary.Entity.Memory;
 import com.memoryDiary.Holder.MemoryDataHolder;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.Calendar;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -257,9 +260,22 @@ public class ShowMemoryActivity extends AppCompatActivity {
                                 Calendar.getInstance().getTimeInMillis(),
                                 "", memory.getImageLabels());
 
+
+                        // CREATING NEW NODE WITH SAME PATH TO STORAGE -- NEED TO BE CHANGED
+                        memoCopy.setImagePath(memory.getImagePath());
+                        fbData.child("Tags").child(taggedUserUid)
+                                .child(taggedMemoryUid).setValue(memoCopy).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.e("ADD IMAGE REFERENCE: ", "onSuccess");
+                                finish();
+                            }
+                        });
+
                         final StorageReference filePathRef = FirebaseStorage.getInstance().getReferenceFromUrl(imagePath);
                         final StorageReference filePath = FirebaseStorage.getInstance().getReference().child("Diary").child(taggedUserUid);
 
+                        /*
                          filePathRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -279,7 +295,8 @@ public class ShowMemoryActivity extends AppCompatActivity {
                                 // Handle any errors
                                 Log.e("DOWNLOAD : ", "Failed to download image");
                             }
-                        });
+                        }); */
+
 
                         /*
                         if(isExternalStorageWritable()){
@@ -317,8 +334,6 @@ public class ShowMemoryActivity extends AppCompatActivity {
                                         }
                                     });
                                 }
-
-                                }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
@@ -326,7 +341,7 @@ public class ShowMemoryActivity extends AppCompatActivity {
                                     Log.e("DOWNLOAD : ", "Failed to download image");
                                 }
                             });
-                            } */
+                            }  */
                         }
 
                     @Override
