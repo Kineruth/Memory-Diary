@@ -201,10 +201,11 @@ public class ShowMemoryActivity extends AppCompatActivity {
             int nameIndex = cursor.getColumnIndex (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             this.taggedUserName = cursor.getString(nameIndex);
             phoneNo = cursor.getString(phoneIndex);
-            phoneNo.replace("-", "");
-            phoneNo.replace(" ", "");
-            phoneNo.replace("(", "");
-            phoneNo.replace(")", "");
+            phoneNo = phoneNo.replace("-", "");
+            phoneNo = phoneNo.replace(" ", "");
+            phoneNo = phoneNo.replace("(", "");
+            phoneNo = phoneNo.replace(")", "");
+            Log.e("ShowMemoryActivity : ", "Phone Number_"+phoneNo);
 
             if(phoneNo.length() == 10){ //need to replace with regex?
                 this.taggedPhoneNumber = "+972" + phoneNo.substring(1,10);

@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.fragment_memory.*
 class MemoryFragment : Fragment() {
     private var mView: View? = null
     private var fabMenu: FloatingActionMenu? = null
-    private var fabSearch: FloatingActionButton? = null
+//    private var fabSearch: FloatingActionButton? = null
     private var fabAdd: FloatingActionButton? = null
     private var fabSettings: FloatingActionButton? = null
 //    private var fabLogout: FloatingActionButton? = null
@@ -82,7 +82,7 @@ class MemoryFragment : Fragment() {
         memory_recyclerView.let {
             it.itemAnimator = null
             it.adapter = viewModel.adapterMemory
-            it.layoutManager = GridLayoutManager(activity, 4)
+            it.layoutManager = GridLayoutManager(activity, 3)
             it.autoScrollToStart(viewModel.adapterMemory)
         }
     }
@@ -106,7 +106,7 @@ class MemoryFragment : Fragment() {
         this.diaryAdapter = DiaryAdapter(activity, memories)
         //this.memoryRecyclerView!!.adapter = diaryAdapter
         this.fabMenu = this.mView!!.findViewById(R.id.add_memory_fab_menu)
-        this.fabSearch = this.mView!!.findViewById(R.id.add_memory_fab_search)
+//        this.fabSearch = this.mView!!.findViewById(R.id.add_memory_fab_search)
         this.fabAdd = this.mView!!.findViewById(R.id.add_memory_fab_add)
         this.fabSettings = this.mView!!.findViewById(R.id.add_memory_fab_settings)
 //        this.fabLogout = this.mView!!.findViewById(R.id.add_memory_fab_logout)
@@ -114,17 +114,17 @@ class MemoryFragment : Fragment() {
         this.fabMenu!!.bringToFront()
         //color when not pressed
         this.fabAdd!!.colorNormal = resources.getColor(R.color.babyBlue)
-        this.fabSearch!!.colorNormal = resources.getColor(R.color.babyBlue)
+//        this.fabSearch!!.colorNormal = resources.getColor(R.color.babyBlue)
         this.fabSettings!!.colorNormal = resources.getColor(R.color.babyBlue)
 //        this.fabLogout!!.colorNormal = resources.getColor(R.color.babyBlue)
 
         //color when pressed
         this.fabAdd!!.colorPressed = resources.getColor(R.color.maroon)
-        this.fabSearch!!.colorPressed = resources.getColor(R.color.maroon)
+//        this.fabSearch!!.colorPressed = resources.getColor(R.color.maroon)
         this.fabSettings!!.colorPressed = resources.getColor(R.color.maroon)
 //        this.fabLogout!!.colorPressed = resources.getColor(R.color.maroon)
 
-        this.fabSearch!!.setOnClickListener { searchActivity() }
+//        this.fabSearch!!.setOnClickListener { searchActivity() }
 
         this.fabAdd!!.setOnClickListener { addMemoryActivity() }
 

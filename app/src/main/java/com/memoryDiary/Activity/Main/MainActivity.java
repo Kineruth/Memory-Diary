@@ -1,13 +1,37 @@
 package com.memoryDiary.Activity.Main;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.widget.Toolbar;
 
@@ -17,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.memoryDiary.Activity.Memory.AddMemoryActivity;
 import com.memoryDiary.Entity.User;
 import com.memoryDiary.Fragment.CameraFragment;
 import com.memoryDiary.Fragment.MemoryFragment;
@@ -24,11 +49,19 @@ import com.memoryDiary.Fragment.TagsFragment;
 import com.memoryDiary.Holder.UserDataHolder;
 import com.memoryDiary.R;
 
+import io.ktor.client.engine.android.Android;
+
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
 //    private Toolbar mToolbar;
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
+    private Long lastTimestamp = (long)-1;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    public static final int mID = 001;
+    private NotificationCompat.Builder notification_builder;
+    private NotificationManager mNotificationManager;
+    private int photoCounter = 0;
 
 
     public MainActivity() {}
@@ -42,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         //Returns the FragmentManager for interacting with fragments associated with this activity
         vpPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 
+        sendNotification();
         initFields();
         initFireBase();
         initUser();
@@ -153,5 +187,111 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
     }
 
+    private Long readLastDateFromMediaStore(Context context, Uri uri) {
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, "date_added DESC");
+        //PhotoHolder media = null;
+        Long dateAdded =(long)-1;
+        if (cursor.moveToNext()) {
+            dateAdded = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_ADDED));
+        }
+        cursor.close();
+        return dateAdded;
+    }
 
+    public boolean checkPermissionREAD_EXTERNAL_STORAGE(final Context context) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                (Activity) context,
+                                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            showDialog("External storage", context, Manifest.permission.READ_EXTERNAL_STORAGE);
+                        } else {
+                            ActivityCompat
+                                    .requestPermissions(
+                                            (Activity) context,
+                                            new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        }
+                        return false;
+                    } else {
+                        return true;
+                    }
+
+        } else {
+            return true;
+        }
+    }
+
+    public void showDialog(final String msg, final Context context, final String permission) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setCancelable(true);
+        alertBuilder.setTitle("Permission necessary");
+        alertBuilder.setMessage(msg + " permission is necessary");
+        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions((Activity) context,
+                                new String[] { permission },
+                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    }
+                });
+        AlertDialog alert = alertBuilder.create();
+        alert.show();
+    }
+
+    private void sendNotification(){
+        getContentResolver().registerContentObserver(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,
+                new ContentObserver(new Handler()) {
+                    @Override
+                    public void onChange(boolean selfChange) {
+                        Log.d("MainActivity","External Media has been changed");
+                        super.onChange(selfChange);
+                        if (checkPermissionREAD_EXTERNAL_STORAGE(MainActivity.this)) {
+                            Long timestamp = readLastDateFromMediaStore(MainActivity.this, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                            // comapare with your stored last value
+                            if (timestamp > lastTimestamp) {
+                                Log.d("MainActivity","Need to create notification");
+                                lastTimestamp = timestamp;
+                                photoCounter++;
+
+                                if(photoCounter == 15){
+                                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "notify_001");
+                                    Intent addMemoIntent = new Intent(getApplicationContext(), AddMemoryActivity.class);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, addMemoIntent, 0);
+
+
+                                    mBuilder.setContentIntent(pendingIntent);
+                                    mBuilder.setSmallIcon(R.drawable.ic_notifications_white_24dp);
+                                    mBuilder.setContentTitle("Got something special today?");
+                                    mBuilder.setContentText("Lets document it in your journal!");
+                                    mBuilder.setPriority(Notification.PRIORITY_MAX);
+                                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                                    mBuilder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS|Notification.DEFAULT_VIBRATE);
+//                                    mBuilder.setDefaults(Notification.DEFAULT_ALL);
+                                    mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                    // === Removed some obsoletes
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                                        String channelId = "3000";
+                                        NotificationChannel channel = new NotificationChannel(channelId,"Gallery Notification",NotificationManager.IMPORTANCE_DEFAULT);
+                                        channel.enableLights(true);
+                                        channel.setLightColor(Color.BLUE);
+                                        mNotificationManager.createNotificationChannel(channel);
+                                        mBuilder.setChannelId(channelId);
+                                    }
+                                    mNotificationManager.notify(0, mBuilder.build());
+
+                                    photoCounter = 0;
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+        );
+    }
 }

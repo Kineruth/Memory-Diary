@@ -111,9 +111,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_insert_comment_white_24dp"
-                app:fab_label="Create Memory"
+                app:fab_label="New Memory"
                 app:fab_size="mini" />
 
+            <!--
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/add_memory_fab_search"
                 android:layout_width="wrap_content"
@@ -121,6 +122,7 @@
                 android:src="@drawable/ic_search_white_24dp"
                 app:fab_label="Search"
                 app:fab_size="mini" />
+            -->
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/add_memory_fab_settings"
